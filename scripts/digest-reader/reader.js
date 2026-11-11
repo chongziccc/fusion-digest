@@ -347,6 +347,12 @@
     bottomNav.addEventListener('touchend', (e) => e.stopPropagation(), { passive: true });
     bottomNav.addEventListener('click', (e) => e.stopPropagation());
 
+    bottomNav.querySelectorAll('.bottom-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        if (navigator.vibrate) navigator.vibrate(10);
+      });
+    });
+
     document.body.appendChild(bottomNav);
   }
 
@@ -1450,63 +1456,63 @@
         <div class="quick-links-bar">
           <a href="submission_calendar_180d.html" class="quick-link-card">
             <div class="quick-link-info">
-              <span class="stat-icon" style="width:34px;height:34px;font-size:16px;">📅</span>
-              <div>
+              <span class="quick-link-icon" style="background:rgba(239, 68, 68, 0.12);color:#f87171;">📅</span>
+              <div class="quick-link-text">
                 <div class="quick-link-title">未来 180 天投稿日历</div>
-                <div class="quick-link-desc">CVPR / ICME / TIP 严格北京时间截稿甘特</div>
+                <div class="quick-link-desc">CVPR / ICME 严格北京时间截稿甘特</div>
               </div>
             </div>
-            <span class="quick-link-arrow">→</span>
+            <span class="quick-link-arrow">›</span>
           </a>
           <a href="idea_log.html" class="quick-link-card">
             <div class="quick-link-info">
-              <span class="stat-icon" style="width:34px;height:34px;font-size:16px;">💡</span>
-              <div>
+              <span class="quick-link-icon" style="background:rgba(245, 158, 11, 0.12);color:#fbbf24;">💡</span>
+              <div class="quick-link-text">
                 <div class="quick-link-title">跨学科 Idea 台账</div>
-                <div class="quick-link-desc">非欧光锥因果、功能梯度材料等迁移设想</div>
+                <div class="quick-link-desc">非欧光锥因果、功能梯度材料迁移</div>
               </div>
             </div>
-            <span class="quick-link-arrow">→</span>
+            <span class="quick-link-arrow">›</span>
           </a>
           <a href="research_threads.html" class="quick-link-card">
             <div class="quick-link-info">
-              <span class="stat-icon" style="width:34px;height:34px;font-size:16px;">🧭</span>
-              <div>
+              <span class="quick-link-icon" style="background:rgba(56, 189, 248, 0.12);color:#38bdf8;">🧭</span>
+              <div class="quick-link-text">
                 <div class="quick-link-title">研究脉络与周度综合</div>
-                <div class="quick-link-desc">关键科学疑问追踪与论文论证骨架卡</div>
+                <div class="quick-link-desc">关键科学疑问追踪与论证骨架卡</div>
               </div>
             </div>
-            <span class="quick-link-arrow">→</span>
+            <span class="quick-link-arrow">›</span>
           </a>
           <a href="tool_watch.html" class="quick-link-card">
             <div class="quick-link-info">
-              <span class="stat-icon" style="width:34px;height:34px;font-size:16px;">🛠️</span>
-              <div>
+              <span class="quick-link-icon" style="background:rgba(168, 85, 247, 0.12);color:#c084fc;">🛠️</span>
+              <div class="quick-link-text">
                 <div class="quick-link-title">工具与技术雷达</div>
                 <div class="quick-link-desc">Geoopt 黎曼流形微分、KaTeX 数学渲染</div>
               </div>
             </div>
-            <span class="quick-link-arrow">→</span>
+            <span class="quick-link-arrow">›</span>
           </a>
           <a href="venue_tiers.html" class="quick-link-card">
             <div class="quick-link-info">
-              <span class="stat-icon" style="width:34px;height:34px;font-size:16px;">📊</span>
-              <div>
+              <span class="quick-link-icon" style="background:rgba(45, 212, 191, 0.12);color:#2dd4bf;">📊</span>
+              <div class="quick-link-text">
                 <div class="quick-link-title">顶刊顶会评级与分区</div>
-                <div class="quick-link-desc">CCF第七版与中科院TOP期刊指南</div>
+                <div class="quick-link-desc">CCF第七版与中科院一区TOP指南</div>
               </div>
             </div>
-            <span class="quick-link-arrow">→</span>
+            <span class="quick-link-arrow">›</span>
           </a>
           <a href="read_log.html" class="quick-link-card">
             <div class="quick-link-info">
-              <span class="stat-icon" style="width:34px;height:34px;font-size:16px;">📚</span>
-              <div>
+              <span class="quick-link-icon" style="background:rgba(148, 163, 184, 0.12);color:#cbd5e1;">📚</span>
+              <div class="quick-link-text">
                 <div class="quick-link-title">已精读论文台账</div>
                 <div class="quick-link-desc">历史研报打分与一句话核心结论</div>
               </div>
             </div>
-            <span class="quick-link-arrow">→</span>
+            <span class="quick-link-arrow">›</span>
           </a>
         </div>
       </section>
@@ -1518,11 +1524,11 @@
             <input id="search" aria-label="搜索日期、主题或论文" placeholder="搜索日期、标题、论文、关键词（如：双曲空间、流匹配、CVPR）...">
           </div>
           <div class="toolbar-sub">
-            <select id="filter" class="filter-select" aria-label="阅读状态">
-              <option value="all">全部研报 (${totalCount})</option>
-              <option value="unread">未读研报</option>
-              <option value="read">已读研报</option>
-            </select>
+            <div class="filter-pills" id="filter-pills">
+              <button class="filter-pill is-active" data-val="all">全部 (${totalCount})</button>
+              <button class="filter-pill" data-val="unread">📌 未读</button>
+              <button class="filter-pill" data-val="read">✓ 已读</button>
+            </div>
             <span id="counter" class="counter-badge">共 ${totalCount} 篇</span>
           </div>
         </div>
@@ -1533,8 +1539,21 @@
     `;
 
     const searchInput = document.getElementById('search');
-    const filterSelect = document.getElementById('filter');
     const counterBadge = document.getElementById('counter');
+    let currentFilter = 'all';
+
+    const filterPillsContainer = document.getElementById('filter-pills');
+    if (filterPillsContainer) {
+      filterPillsContainer.querySelectorAll('.filter-pill').forEach(btn => {
+        btn.onclick = () => {
+          if (navigator.vibrate) navigator.vibrate(10);
+          filterPillsContainer.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+          currentFilter = btn.dataset.val || 'all';
+          draw();
+        };
+      });
+    }
 
     const updateHeroCountdown = () => {
       const iconEl = document.getElementById('hero-countdown-icon');
@@ -1566,8 +1585,8 @@
     setInterval(updateHeroCountdown, 3000);
 
     const draw = () => {
-      const q = searchInput.value.toLowerCase().trim();
-      const filter = filterSelect.value;
+      const q = searchInput ? searchInput.value.toLowerCase().trim() : '';
+      const filter = currentFilter;
       const rows = data.entries.filter(e => {
         const read = storage.get('digest-read-' + e.date) === 'yes';
         const matchText = [e.date, e.title, e.paper_title || '', ...(e.tags || [])].join(' ').toLowerCase();
@@ -1576,7 +1595,7 @@
         return matchesQuery && matchesFilter;
       });
 
-      if (counterBadge) counterBadge.textContent = `显示 ${rows.length} / ${totalCount} 篇`;
+      if (counterBadge) counterBadge.textContent = `共 ${rows.length} / ${totalCount} 篇`;
 
       document.getElementById('entries').innerHTML = rows.map((e) => {
         const read = storage.get('digest-read-' + e.date) === 'yes';
@@ -1604,9 +1623,12 @@
             </h2>
 
             ${e.paper_title ? `
-              <div class="paper-box">
-                <span class="paper-icon">📄</span>
-                <span class="paper-text">核心精读：${esc(e.paper_title)}</span>
+              <div class="tldr-callout">
+                <div class="tldr-badge-row">
+                  <span class="tldr-badge">⚡ 核心精读论文</span>
+                  <span class="tldr-score">★ 顶会高优</span>
+                </div>
+                <div class="tldr-title">${esc(e.paper_title)}</div>
               </div>
             ` : ''}
 
@@ -1617,10 +1639,12 @@
             ` : ''}
 
             <div class="entry-actions">
-              <a href="${esc(e.href)}" class="btn-primary">进入当日导读 →</a>
-              ${paperHref ? `<a href="${esc(paperHref)}" class="btn-secondary">🔬 论文精读</a>` : ''}
-              ${!e.legacy ? `<a href="${esc(appendixHref)}" class="btn-secondary">📋 来源与附录</a>` : ''}
-              <a href="${esc(e.href.replace('.html', '.md'))}" class="btn-ghost">Markdown 原文</a>
+              <a href="${esc(e.href)}" class="btn-primary-action">📖 进入核心导读</a>
+              ${paperHref ? `<a href="${esc(paperHref)}" class="btn-secondary-action">🔬 论文深度精读</a>` : ''}
+              <div class="subtle-actions">
+                ${!e.legacy ? `<a href="${esc(appendixHref)}" class="btn-ghost-action">附录</a>` : ''}
+                <a href="${esc(e.href.replace('.html', '.md'))}" class="btn-ghost-action">MD</a>
+              </div>
             </div>
           </article>
         `;
@@ -1630,6 +1654,7 @@
       app.querySelectorAll('[data-date]').forEach(b => {
         b.onclick = (ev) => {
           ev.stopPropagation();
+          if (navigator.vibrate) navigator.vibrate(10);
           const key = 'digest-read-' + b.dataset.date;
           storage.set(key, storage.get(key) === 'yes' ? 'no' : 'yes');
           draw();
@@ -1639,6 +1664,7 @@
       // Tag chips click to filter
       app.querySelectorAll('[data-tag]').forEach(chip => {
         chip.onclick = () => {
+          if (navigator.vibrate) navigator.vibrate(10);
           searchInput.value = chip.dataset.tag;
           draw();
           searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1646,8 +1672,7 @@
       });
     };
 
-    searchInput.oninput = draw;
-    filterSelect.onchange = draw;
+    if (searchInput) searchInput.oninput = draw;
     draw();
     return;
   }
@@ -1672,15 +1697,20 @@
 
   const pageType = data.page_type || (data.paper ? 'digest' : (data.source && data.source.includes('appendix') ? 'appendix' : 'paper'));
   const pageLabel = pageType === 'digest' ? '核心导读' : (pageType === 'appendix' ? '来源与运行记录' : (pageType === 'paper' ? '论文深度精读' : '研究文章'));
+  const isToolLedger = data.date === '研究台账';
 
   app.innerHTML = `
     <header class="detail-hero">
       <div class="breadcrumb-bar">
         <a href="${esc(homeHref)}" class="breadcrumb-link">🏠 研究阅读室</a>
         <span class="breadcrumb-sep">/</span>
-        <span>${esc(data.date)}</span>
-        <span class="breadcrumb-sep">/</span>
-        <span class="breadcrumb-current">${pageLabel}</span>
+        ${isToolLedger ? `
+          <span class="breadcrumb-current">${esc(data.title)}</span>
+        ` : `
+          <span>${esc(data.date)}</span>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-current">${pageLabel}</span>
+        `}
       </div>
 
       <div class="detail-header-main">
@@ -1692,7 +1722,7 @@
         <h1 class="detail-title">${esc(data.title)}</h1>
       </div>
 
-      ${data.date !== '研究台账' ? `
+      ${!isToolLedger ? `
         <nav class="tabs-nav" aria-label="当日研报分卷">
           ${digestHref ? `
             <a href="${esc(digestHref)}" class="tab-item ${pageType === 'digest' ? 'active' : ''}">
@@ -1714,10 +1744,16 @@
           </a>
         </nav>
       ` : `
-        <div class="tabs-nav">
-          <a href="${esc(homeHref)}" class="tab-item active">← 返回阅读室首页</a>
+        <nav class="tabs-nav tool-tabs-nav" aria-label="研究台账快捷切换">
+          <a href="${esc(homeHref)}" class="tab-item">🏠 返回首页</a>
+          <a href="submission_calendar_180d.html" class="tab-item ${data.source && data.source.includes('submission_calendar') ? 'active' : ''}">📅 投稿日历</a>
+          <a href="idea_log.html" class="tab-item ${data.source && data.source.includes('idea_log') ? 'active' : ''}">💡 Idea台账</a>
+          <a href="research_threads.html" class="tab-item ${data.source && data.source.includes('research_threads') ? 'active' : ''}">🧭 研究脉络</a>
+          <a href="venue_tiers.html" class="tab-item ${data.source && data.source.includes('venue_tiers') ? 'active' : ''}">📊 评级分区</a>
+          <a href="tool_watch.html" class="tab-item ${data.source && data.source.includes('tool_watch') ? 'active' : ''}">🛠️ 工具雷达</a>
+          <a href="read_log.html" class="tab-item ${data.source && data.source.includes('read_log') ? 'active' : ''}">📚 精读台账</a>
           <a href="${esc(data.source)}" class="tab-item tab-ghost">📄 Markdown 原稿</a>
-        </div>
+        </nav>
       `}
     </header>
 

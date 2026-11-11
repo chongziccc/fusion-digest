@@ -3,9 +3,9 @@
   "date": "2026-11-06",
   "legacy": true,
   "renderer": {
-    "scripts/build-digest-site.py": "bcdedd776046325cfebe41421a96fdba61c7de157025cf1f2a0ba4e3f752d77b",
-    "scripts/digest-reader/reader.css": "d69422104abb96184effdb5ed7651f2e1bba4a84aed2608820d99a731dbc77f0",
-    "scripts/digest-reader/reader.js": "b5104bbc3485ad41180617a72b98e46c755339478b9412a1b1ee059a67e030f8",
+    "scripts/build-digest-site.py": "22e999584c208a38af47d9b3996b208eccec5077a28aeb37c001a186d69e2f78",
+    "scripts/digest-reader/reader.css": "8a6cf4ef2394864e671b4c7f0f19e67535c521d08fd510c0357a86818048ce6a",
+    "scripts/digest-reader/reader.js": "6c75f2fbc4a779e5574e545ab5b424267c5f96d4d6d40e296f288d6866104f3e",
     "scripts/digest-reader/vendor/dist/contrib/auto-render.js": "1f5492e68752a1b1fbcd500840ca1d0191c26131fdc36381b493a02c6b8d4bcf",
     "scripts/digest-reader/vendor/dist/contrib/auto-render.min.js": "bb53eb953394531aae36fdd537065c4244eb8542901a3ce914601d932675b8ac",
     "scripts/digest-reader/vendor/dist/contrib/auto-render.mjs": "42d3240990d45436d6dd4dfb36e7792448cdc2b602c47ac424fd09b1e93dbdfe",
