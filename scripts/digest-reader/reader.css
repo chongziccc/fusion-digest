@@ -1394,6 +1394,64 @@ tbody tr:hover td { background: var(--surface); }
   white-space: nowrap !important;
 }
 
+.badge-expired {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11.5px;
+  font-weight: 650;
+  color: #64748b;
+  background: rgba(100, 116, 139, 0.12);
+  border: 1px solid rgba(100, 116, 139, 0.28);
+  padding: 3px 8px;
+  border-radius: 6px;
+  white-space: nowrap !important;
+}
+:root[data-theme="dark"] .badge-expired {
+  color: #94a3b8;
+  background: rgba(100, 116, 139, 0.2);
+  border-color: rgba(100, 116, 139, 0.35);
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+  70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+.badge-pulsing {
+  animation: pulseGlow 2s infinite;
+}
+
+tr.row-expired {
+  opacity: 0.65;
+  background: rgba(148, 163, 184, 0.04);
+}
+
+.live-clock-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0 20px 0;
+  padding: 10px 14px;
+  background: rgba(45, 212, 191, 0.08);
+  border: 1px solid rgba(45, 212, 191, 0.25);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--ink);
+}
+.live-clock-banner .clock-time {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--accent);
+}
+.live-clock-banner .clock-tag {
+  font-size: 11px;
+  padding: 2px 7px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--ink-muted);
+}
+
 pre {
   background: var(--code-bg);
   border: 1px solid var(--code-border);

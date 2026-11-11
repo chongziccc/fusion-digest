@@ -50,6 +50,183 @@
   const currentPath = (window.location.pathname || '').toLowerCase();
   const isIndexPage = data.kind === 'index' || currentPath.endsWith('index.html') || currentPath.endsWith('/daily-digest/') || (!data.kind && !data.date);
 
+  // Authoritative Tracked Submission Calendar Deadlines (UTC epoch timestamps)
+  const VENUE_DEADLINES = [
+    {
+      id: 'cvpr2027-abstract',
+      name: 'CVPR 2027 (Abstract)',
+      matchNames: ['cvpr 2027 (abstract)', 'cvpr 2027 摘要', 'cvpr 2027 abstract'],
+      shortLabel: 'CVPR 2027 摘要',
+      deadlineUtcMs: Date.UTC(2026, 10, 11, 11, 59, 59), // 2026-11-10 23:59:59 AoE = 2026-11-11 11:59:59 UTC = 2026-11-11 19:59:59 Beijing
+      bjStr: '2026-11-11 19:59:59'
+    },
+    {
+      id: 'cvpr2027-paper',
+      name: 'CVPR 2027 (Full Paper)',
+      matchNames: ['cvpr 2027 (full paper)', 'cvpr 2027 全文', 'cvpr 2027 full paper'],
+      shortLabel: 'CVPR 2027 全文',
+      deadlineUtcMs: Date.UTC(2026, 10, 17, 11, 59, 59), // 2026-11-16 23:59:59 AoE = 2026-11-17 19:59:59 Beijing
+      bjStr: '2026-11-17 19:59:59'
+    },
+    {
+      id: 'cvpr2027-supp',
+      name: 'CVPR 2027 (Supplementary)',
+      matchNames: ['cvpr 2027 (supplementary)', 'cvpr 2027 补充材料', 'cvpr 2027 supplementary'],
+      shortLabel: 'CVPR 2027 附录',
+      deadlineUtcMs: Date.UTC(2026, 10, 24, 11, 59, 59), // 2026-11-23 23:59:59 AoE = 2026-11-24 19:59:59 Beijing
+      bjStr: '2026-11-24 19:59:59'
+    },
+    {
+      id: 'icme2027',
+      name: 'ICME 2027',
+      matchNames: ['icme 2027', 'icme'],
+      shortLabel: 'ICME 2027',
+      deadlineUtcMs: Date.UTC(2026, 11, 16, 11, 59, 59), // 2026-12-15 23:59:59 AoE = 2026-12-16 19:59:59 Beijing
+      bjStr: '2026-12-16 19:59:59'
+    },
+    {
+      id: 'infofusion-si',
+      name: 'Information Fusion',
+      matchNames: ['information fusion', 'infofusion'],
+      shortLabel: 'InfoFusion 特刊',
+      deadlineUtcMs: Date.UTC(2026, 11, 31, 23, 59, 59), // 2026-12-31 23:59:59 UTC = 2027-01-01 07:59:59 Beijing
+      bjStr: '2027-01-01 07:59:59'
+    },
+    {
+      id: 'ijcai2027-abstract',
+      name: 'IJCAI 2027 (Abstract)',
+      matchNames: ['ijcai 2027 (abstract)', 'ijcai 2027 摘要'],
+      shortLabel: 'IJCAI 2027 摘要',
+      deadlineUtcMs: Date.UTC(2027, 0, 15, 11, 59, 59), // 2027-01-14 23:59:59 AoE = 2027-01-15 19:59:59 Beijing
+      bjStr: '2027-01-15 19:59:59'
+    },
+    {
+      id: 'ijcai2027-paper',
+      name: 'IJCAI 2027 (Full Paper)',
+      matchNames: ['ijcai 2027 (full paper)', 'ijcai 2027 全文'],
+      shortLabel: 'IJCAI 2027 全文',
+      deadlineUtcMs: Date.UTC(2027, 0, 22, 11, 59, 59), // 2027-01-21 23:59:59 AoE = 2027-01-22 19:59:59 Beijing
+      bjStr: '2027-01-22 19:59:59'
+    },
+    {
+      id: 'icip2027',
+      name: 'ICIP 2027',
+      matchNames: ['icip 2027', 'icip'],
+      shortLabel: 'ICIP 2027',
+      deadlineUtcMs: Date.UTC(2027, 0, 28, 23, 59, 59), // 2027-01-28 23:59:59 UTC = 2027-01-29 07:59:59 Beijing
+      bjStr: '2027-01-29 07:59:59'
+    },
+    {
+      id: 'iccv2027-abstract',
+      name: 'ICCV 2027 (Abstract)',
+      matchNames: ['iccv 2027 (abstract)', 'iccv 2027 摘要'],
+      shortLabel: 'ICCV 2027 摘要',
+      deadlineUtcMs: Date.UTC(2027, 2, 4, 11, 59, 59), // 2027-03-03 23:59:59 AoE = 2027-03-04 19:59:59 Beijing
+      bjStr: '2027-03-04 19:59:59'
+    },
+    {
+      id: 'iccv2027-paper',
+      name: 'ICCV 2027 (Full Paper)',
+      matchNames: ['iccv 2027 (full paper)', 'iccv 2027 全文'],
+      shortLabel: 'ICCV 2027 全文',
+      deadlineUtcMs: Date.UTC(2027, 2, 11, 11, 59, 59), // 2027-03-10 23:59:59 AoE = 2027-03-11 19:59:59 Beijing
+      bjStr: '2027-03-11 19:59:59'
+    },
+    {
+      id: 'tip-si',
+      name: 'IEEE Transactions on Image Processing (TIP)',
+      matchNames: ['ieee transactions on image processing', 'tip', 'transactions on image processing'],
+      shortLabel: 'IEEE TIP 特刊',
+      deadlineUtcMs: Date.UTC(2027, 2, 15, 23, 59, 59), // 2027-03-15 23:59:59 UTC = 2027-03-16 07:59:59 Beijing
+      bjStr: '2027-03-16 07:59:59'
+    },
+    {
+      id: 'acmmm2027-abstract',
+      name: 'ACM MM 2027 (Abstract)',
+      matchNames: ['acm mm 2027 (abstract)', 'acm mm 2027 摘要', 'acm mm abstract'],
+      shortLabel: 'ACM MM 摘要',
+      deadlineUtcMs: Date.UTC(2027, 3, 6, 11, 59, 59), // 2027-04-05 23:59:59 AoE = 2027-04-06 19:59:59 Beijing
+      bjStr: '2027-04-06 19:59:59'
+    },
+    {
+      id: 'acmmm2027-paper',
+      name: 'ACM MM 2027 (Full Paper)',
+      matchNames: ['acm mm 2027 (full paper)', 'acm mm 2027 全文', 'acm mm full paper'],
+      shortLabel: 'ACM MM 全文',
+      deadlineUtcMs: Date.UTC(2027, 3, 13, 11, 59, 59), // 2027-04-12 23:59:59 AoE = 2027-04-13 19:59:59 Beijing
+      bjStr: '2027-04-13 19:59:59'
+    }
+  ];
+
+  function formatBeijingTime(date) {
+    const d = new Date(date.getTime() + 8 * 3600000);
+    const pad = n => String(n).padStart(2, '0');
+    return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}`;
+  }
+
+  function getCountdownInfo(deadlineUtcMs) {
+    const now = Date.now();
+    const diffMs = deadlineUtcMs - now;
+    if (diffMs <= 0) {
+      return {
+        status: 'expired',
+        isExpired: true,
+        countdownHtml: '<span class="badge-expired">已截止</span>',
+        badgeHtml: '<span class="badge-expired">【已截止】</span>',
+        shortStr: '已截止',
+        heroColor: '#94a3b8'
+      };
+    }
+
+    const totalHours = Math.floor(diffMs / 3600000);
+    const mins = Math.floor((diffMs % 3600000) / 60000);
+    const secs = Math.floor((diffMs % 60000) / 1000);
+
+    if (diffMs < 24 * 3600 * 1000) {
+      const timeStr = `${totalHours}h ${mins}m`;
+      return {
+        status: 'tonight',
+        isExpired: false,
+        countdownHtml: `<span class="badge-urgent badge-pulsing" title="截稿进入最后倒计时">🚨 剩 ${timeStr} (今晚)</span>`,
+        badgeHtml: `<span class="badge-urgent badge-pulsing">🚨 【今晚截稿】</span>`,
+        shortStr: `今晚 19:59 (剩 ${timeStr})`,
+        heroColor: '#ef4444'
+      };
+    }
+
+    const days = (diffMs / (24 * 3600 * 1000)).toFixed(1);
+    const roundedDays = Math.round(diffMs / (24 * 3600 * 1000));
+
+    if (diffMs < 14 * 24 * 3600 * 1000) {
+      return {
+        status: 'sprint',
+        isExpired: false,
+        countdownHtml: `<span class="badge-urgent" title="冲刺期">⚡ 剩 ${days} 天</span>`,
+        badgeHtml: `<span class="badge-urgent">⚡ 【紧急冲刺】</span>`,
+        shortStr: `仅剩 ${days} 天`,
+        heroColor: '#f59e0b'
+      };
+    } else if (diffMs < 60 * 24 * 3600 * 1000) {
+      return {
+        status: 'near',
+        isExpired: false,
+        countdownHtml: `<span class="badge-countdown">📅 剩 ${roundedDays} 天</span>`,
+        badgeHtml: `<span class="badge-warning">⚡ 【近期关注】</span>`,
+        shortStr: `剩 ${roundedDays} 天`,
+        heroColor: '#2dd4bf'
+      };
+    } else {
+      return {
+        status: 'plan',
+        isExpired: false,
+        countdownHtml: `<span class="badge-countdown">🌱 剩 ${roundedDays} 天</span>`,
+        badgeHtml: `<span class="badge-info">📅 【规划远期】</span>`,
+        shortStr: `剩 ${roundedDays} 天`,
+        heroColor: '#a78bfa'
+      };
+    }
+  }
+
   if (mast) {
     // Subpage back button
     if (!isIndexPage && !document.getElementById('mast-back')) {
@@ -1261,13 +1438,13 @@
               <div class="stat-val" style="color:var(--accent);">${esc(latestPaper)}</div>
             </div>
           </a>
-          <div class="stat-card">
-            <div class="stat-icon">🚨</div>
+          <a href="submission_calendar_180d.html" class="stat-card stat-card-interactive" id="hero-countdown-card" style="text-decoration:none;cursor:pointer;">
+            <div class="stat-icon" id="hero-countdown-icon">🚨</div>
             <div class="stat-content">
-              <div class="stat-label">CVPR 2027 倒计时</div>
-              <div class="stat-val">摘要剩 2.6d</div>
+              <div class="stat-label" id="hero-countdown-label">CVPR 2027 倒计时</div>
+              <div class="stat-val" id="hero-countdown-val" style="color:#ef4444;">计算中...</div>
             </div>
-          </div>
+          </a>
         </div>
 
         <div class="quick-links-bar">
@@ -1358,6 +1535,35 @@
     const searchInput = document.getElementById('search');
     const filterSelect = document.getElementById('filter');
     const counterBadge = document.getElementById('counter');
+
+    const updateHeroCountdown = () => {
+      const iconEl = document.getElementById('hero-countdown-icon');
+      const labelEl = document.getElementById('hero-countdown-label');
+      const valEl = document.getElementById('hero-countdown-val');
+      if (!valEl) return;
+
+      const upcoming = VENUE_DEADLINES.filter(v => v.deadlineUtcMs > Date.now());
+      if (upcoming.length === 0) {
+        if (iconEl) iconEl.textContent = '🏁';
+        if (labelEl) labelEl.textContent = '本轮截稿已完毕';
+        valEl.textContent = '关注后续特刊';
+        valEl.style.color = 'var(--ink-muted)';
+        return;
+      }
+
+      const next = upcoming[0];
+      const info = getCountdownInfo(next.deadlineUtcMs);
+      if (iconEl) {
+        if (info.status === 'tonight') iconEl.textContent = '🔥';
+        else if (info.status === 'sprint') iconEl.textContent = '⚡';
+        else iconEl.textContent = '📅';
+      }
+      if (labelEl) labelEl.textContent = `${next.shortLabel || next.name} 倒计时`;
+      valEl.innerHTML = info.shortStr;
+      valEl.style.color = info.heroColor;
+    };
+    updateHeroCountdown();
+    setInterval(updateHeroCountdown, 3000);
 
     const draw = () => {
       const q = searchInput.value.toLowerCase().trim();
@@ -1531,6 +1737,91 @@
 
   const article = app.querySelector('article');
   renderMarkdown(data.markdown, article);
+
+  // Live Dynamic Countdown Engine for Submission Calendar
+  if (data.source && data.source.includes('submission_calendar')) {
+    const initCalendarEngine = () => {
+      // 1. Live Clock Banner before the first table
+      const firstTableScroll = article.querySelector('.table-scroll');
+      if (firstTableScroll && !document.getElementById('live-clock-banner')) {
+        const banner = document.createElement('div');
+        banner.id = 'live-clock-banner';
+        banner.className = 'live-clock-banner';
+        banner.innerHTML = `
+          <span class="pulse-dot"></span>
+          <span>当前系统动态时钟：<span class="clock-time" id="live-clock-time">...</span></span>
+          <span class="clock-tag">Asia/Shanghai (UTC+8) · 毫秒级动态倒计时已挂载</span>
+        `;
+        firstTableScroll.before(banner);
+      }
+
+      // 2. Dynamic row updater
+      const updateCalendarRows = () => {
+        const now = Date.now();
+        const clockEl = document.getElementById('live-clock-time');
+        if (clockEl) {
+          clockEl.textContent = formatBeijingTime(new Date(now));
+        }
+
+        // Iterate through all tables
+        article.querySelectorAll('table').forEach(table => {
+          const ths = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
+          const countdownCol = ths.findIndex(h => /倒计时/i.test(h));
+          const alertCol = ths.findIndex(h => /预警|等级/i.test(h));
+          const timeCol = ths.findIndex(h => /换算北京时间|截稿日期/i.test(h));
+
+          const rows = Array.from(table.querySelectorAll('tbody tr'));
+          rows.forEach(tr => {
+            const cells = tr.querySelectorAll('td');
+            if (cells.length < 5) return;
+
+            const venueText = cells[0].textContent.trim();
+            const cleanText = venueText.toLowerCase().replace(/[\*\_\(\)\s]/g, '');
+
+            // Match by venue name alias
+            let match = VENUE_DEADLINES.find(v =>
+              v.matchNames.some(m => cleanText.includes(m.toLowerCase().replace(/[\*\_\(\)\s]/g, '')))
+            );
+
+            let deadlineUtcMs = match ? match.deadlineUtcMs : null;
+
+            // If not matched by name, check if time column has a parseable date
+            if (!deadlineUtcMs && timeCol >= 0 && cells[timeCol]) {
+              const dateStr = cells[timeCol].textContent.trim();
+              const m = dateStr.match(/(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2}:\d{2})/);
+              if (m) {
+                const p = m[1].split('-').map(Number);
+                const t = m[2].split(':').map(Number);
+                deadlineUtcMs = Date.UTC(p[0], p[1] - 1, p[2], t[0] - 8, t[1], t[2]);
+              }
+            }
+
+            if (deadlineUtcMs) {
+              const info = getCountdownInfo(deadlineUtcMs);
+              if (countdownCol >= 0 && cells[countdownCol]) {
+                cells[countdownCol].innerHTML = info.countdownHtml;
+                cells[countdownCol].classList.add('cell-nowrap');
+              }
+              if (alertCol >= 0 && cells[alertCol]) {
+                cells[alertCol].innerHTML = countdownCol >= 0 ? info.badgeHtml : `${info.badgeHtml} ${info.countdownHtml}`;
+                cells[alertCol].classList.add('cell-nowrap');
+              }
+              if (info.isExpired) {
+                tr.classList.add('row-expired');
+              } else {
+                tr.classList.remove('row-expired');
+              }
+            }
+          });
+        });
+      };
+
+      updateCalendarRows();
+      setInterval(updateCalendarRows, 1000);
+    };
+
+    initCalendarEngine();
+  }
 
   // Generate unique IDs for Headings
   const used = new Set();
