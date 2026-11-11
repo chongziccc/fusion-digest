@@ -590,7 +590,21 @@
           const key = match[1].trim();
           const val = match[2].trim();
           if (key.includes('打分')) {
-            scoreHtml = `<div class="meta-score-box"><span class="score-label">⭐ 学术综合评价打分</span><span class="score-num">${val}</span></div>`;
+            const scoreParts = val.match(/^(\d+\s*\/\s*\d+)([\s\S]*)/);
+            if (scoreParts) {
+              const cleanSub = scoreParts[2].trim().replace(/^[（(]|[）)]$/g, '').replace(/,\s*/g, ' · ');
+              scoreHtml = `
+                <div class="meta-score-box">
+                  <div class="score-header">
+                    <span class="score-label">⭐ 学术综合评价打分</span>
+                    <span class="score-highlight">${scoreParts[1].trim()}</span>
+                  </div>
+                  ${cleanSub ? `<div class="score-breakdown">${esc(cleanSub)}</div>` : ''}
+                </div>
+              `;
+            } else {
+              scoreHtml = `<div class="meta-score-box"><div class="score-label">⭐ 学术综合评价打分</div><div class="score-num">${val}</div></div>`;
+            }
           } else {
             const row = document.createElement('div');
             row.className = 'meta-row';

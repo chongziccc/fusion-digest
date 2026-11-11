@@ -897,28 +897,44 @@ body.wide-mode .layout, main.wide-mode .layout {
   box-shadow: 0 1px 3px rgba(0,0,0,0.03);
 }
 .meta-score-box {
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  border-radius: 12px;
+  padding: 13px 18px;
+  margin-bottom: 20px;
+}
+.score-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--accent-soft);
-  border: 1px solid var(--accent-border);
-  border-radius: 10px;
-  padding: 12px 18px;
-  margin-bottom: 18px;
+  gap: 12px;
 }
 .score-label {
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.02em;
   display: flex;
   align-items: center;
   gap: 6px;
 }
+.score-highlight {
+  font-size: 20px;
+  font-weight: 850;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+.score-breakdown {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--accent-border);
+  font-size: 12px;
+  line-height: 1.5;
+  color: #94a3b8;
+}
 .score-num {
-  font-size: 17px;
-  font-weight: 800;
+  font-size: 15px;
+  font-weight: 750;
   color: var(--accent);
 }
 .meta-grid {
