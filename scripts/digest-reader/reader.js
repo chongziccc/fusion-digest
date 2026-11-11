@@ -390,6 +390,7 @@
     let currentY = window.scrollY;
     let targetY = currentY;
     let isAnimating = false;
+    let lastWheelAt = 0;
 
     const clamp = (val, min, max) => Math.max(min, Math.min(max, val));
 
@@ -437,7 +438,7 @@
         if (innerContainer.classList.contains('table-scroll') || innerContainer.classList.contains('katex-display')) {
           e.preventDefault();
           const delta = (Math.abs(e.deltaX) >= Math.abs(e.deltaY) ? e.deltaX : e.deltaY);
-          innerContainer.scrollLeft += Math.sign(delta) * 50;
+          innerContainer.scrollLeft += Math.sign(delta) * 24;
           return;
         }
         return;
@@ -452,14 +453,21 @@
 
       if (rawDelta === 0) return;
 
+      // Chromium can emit a burst of wheel events for one physical notch.
+      // Ignore the duplicate tail of that burst so two notches never become
+      // a page-sized jump.
+      const now = performance.now();
+      if (now - lastWheelAt < 70) return;
+      lastWheelAt = now;
+
       // Treat every wheel notch as one small reading step. Trackpads and
       // Android emulators often report huge deltas, so never scale the raw
       // delta directly and never let a burst queue an entire screen.
-      const step = Math.sign(rawDelta) * 28;
+      const step = Math.sign(rawDelta) * 12;
       targetY += step;
 
       // Keep at most three gentle steps queued in either direction.
-      const maxLead = 84;
+      const maxLead = 36;
       if (targetY > currentY + maxLead) targetY = currentY + maxLead;
       if (targetY < currentY - maxLead) targetY = currentY - maxLead;
 
