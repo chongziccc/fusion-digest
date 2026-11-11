@@ -24,8 +24,27 @@
     };
   }
 
-  // Masthead brand & companion navigation links
+  // Cloud sync status button in masthead
   const mast = document.querySelector('.mast');
+  if (mast && !document.getElementById('cloud-sync-btn')) {
+    const syncBtn = document.createElement('button');
+    syncBtn.id = 'cloud-sync-btn';
+    const isOnline = window.location.protocol.startsWith('http');
+    syncBtn.className = 'btn-cloud-sync' + (isOnline ? '' : ' is-offline');
+    syncBtn.innerHTML = isOnline ? '☁️ 云端同步' : '⚡ 离线副本';
+    syncBtn.title = isOnline ? '已连接云端实时同步，点击刷新' : '当前为本地离线副本，点击尝试连接云端';
+    syncBtn.onclick = () => {
+      if (isOnline) {
+        syncBtn.innerHTML = '🔄 刷新中...';
+        window.location.reload();
+      } else {
+        syncBtn.innerHTML = '🔄 连接云端...';
+        window.location.href = 'https://chongziccc.github.io/fusion-digest/research/daily-digest/index.html';
+      }
+    };
+    if (themeBtn) themeBtn.before(syncBtn);
+    else mast.append(syncBtn);
+  }
   const homeHref = data.home || (data.kind === 'index' ? 'index.html' : '../index.html');
   const basePath = homeHref === 'index.html' ? '' : homeHref.replace('index.html', '');
   const currentPath = (window.location.pathname || '').toLowerCase();

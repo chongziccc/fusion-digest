@@ -2436,6 +2436,36 @@ dialog img { max-height: 80vh; border-radius: 8px; }
   transform: scale(0.94);
 }
 
+/* Cloud sync status indicator in masthead */
+.btn-cloud-sync {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  font-weight: 650;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  border-radius: 16px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-cloud-sync:hover {
+  filter: brightness(1.15);
+}
+.btn-cloud-sync:active {
+  transform: scale(0.94);
+}
+.btn-cloud-sync.is-offline {
+  color: var(--muted);
+  background: var(--surface);
+  border-color: var(--line);
+}
+
 /* Toolbar secondary row */
 .toolbar-sub {
   display: flex;
