@@ -127,6 +127,11 @@
     bottomNav.id = 'mobile-bottom-bar';
     bottomNav.className = 'mobile-bottom-bar';
     bottomNav.setAttribute('aria-label', '移动端底栏导航');
+
+    const latestDigestTarget = (data.entries && data.entries.length > 0 && data.entries[0].href)
+      ? data.entries[0].href
+      : '2026-11-11/digest.html';
+
     bottomNav.innerHTML = `
       <a href="${basePath}index.html" class="bottom-tab ${isHome ? 'is-active' : ''}">
         <span class="tab-icon">
@@ -134,7 +139,7 @@
         </span>
         <span class="tab-label">首页</span>
       </a>
-      <a href="${basePath}2026-11-09/digest.html" class="bottom-tab ${isDigest ? 'is-active' : ''}">
+      <a href="${basePath}${latestDigestTarget}" class="bottom-tab ${isDigest ? 'is-active' : ''}">
         <span class="tab-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
         </span>
@@ -159,6 +164,12 @@
         <span class="tab-label">工具雷达</span>
       </a>
     `;
+
+    // Stop propagation so taps on dock never pass through to underlying links or tables
+    bottomNav.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
+    bottomNav.addEventListener('touchend', (e) => e.stopPropagation(), { passive: true });
+    bottomNav.addEventListener('click', (e) => e.stopPropagation());
+
     document.body.appendChild(bottomNav);
   }
 
@@ -227,21 +238,29 @@
         if (innerContainer.classList.contains('table-scroll') || innerContainer.classList.contains('katex-display')) {
           e.preventDefault();
           const delta = (Math.abs(e.deltaX) >= Math.abs(e.deltaY) ? e.deltaX : e.deltaY);
-          innerContainer.scrollLeft += Math.sign(delta) * 55;
+          innerContainer.scrollLeft += Math.sign(delta) * 50;
           return;
         }
         return;
       }
 
-      // Intercept wheel to cancel Chromium's high-velocity fling on Android
+      // Intercept wheel to cancel runaway jump on PC & Android emulator
       e.preventDefault();
 
-      const direction = Math.sign(e.deltaY || 0);
-      if (direction === 0) return;
+      let rawDelta = e.deltaY || 0;
+      if (e.deltaMode === 1) rawDelta *= 24; // lines to px
+      else if (e.deltaMode === 2) rawDelta *= window.innerHeight; // pages to px
 
-      // Moderate step: 60px per wheel tick
-      const delta = direction * 60;
-      targetY += delta;
+      if (rawDelta === 0) return;
+
+      // Normalized gentle step: clamp single wheel step to at most 50px
+      const step = Math.sign(rawDelta) * Math.min(Math.abs(rawDelta) * 0.42, 50);
+      targetY += step;
+
+      // Restrain maximum forward lead to 50% of viewport height
+      const maxLead = window.innerHeight * 0.5;
+      if (targetY > currentY + maxLead) targetY = currentY + maxLead;
+      if (targetY < currentY - maxLead) targetY = currentY - maxLead;
 
       if (!isAnimating) {
         isAnimating = true;
@@ -260,14 +279,25 @@
       topBtn.className = 'btn-back-to-top';
       topBtn.setAttribute('aria-label', '返回顶部');
       topBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>';
-      topBtn.onclick = () => {
+      
+      const doScrollTop = (e) => {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => {
+          if (window.scrollY > 0) window.scrollTo(0, 0);
+        }, 320);
       };
+
+      topBtn.addEventListener('click', doScrollTop);
+      topBtn.addEventListener('touchend', doScrollTop);
       document.body.appendChild(topBtn);
     }
 
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 400) {
+      if (window.scrollY > 300) {
         topBtn.classList.add('is-visible');
       } else {
         topBtn.classList.remove('is-visible');
@@ -277,71 +307,69 @@
 
   // Touch Swipe / Fling Momentum Limiter (Prevents single flick from rocketing past whole page)
   (() => {
-    let touchStartY = 0;
-    let touchStartTime = 0;
-    let isTouchActive = false;
+    let lastY = 0;
+    let lastTime = 0;
+    let velocity = 0;
+    let isTouching = false;
     let flingId = null;
 
     window.addEventListener('touchstart', (e) => {
+      isTouching = true;
+      if (flingId) {
+        cancelAnimationFrame(flingId);
+        flingId = null;
+      }
       if (e.touches.length === 1) {
-        isTouchActive = true;
-        touchStartY = e.touches[0].clientY;
-        touchStartTime = performance.now();
-        if (flingId) {
-          cancelAnimationFrame(flingId);
-          flingId = null;
+        lastY = e.touches[0].clientY;
+        lastTime = performance.now();
+        velocity = 0;
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 1) {
+        const now = performance.now();
+        const dt = now - lastTime;
+        if (dt > 8) {
+          const dy = lastY - e.touches[0].clientY;
+          velocity = dy / dt; // px/ms
+          lastY = e.touches[0].clientY;
+          lastTime = now;
         }
       }
     }, { passive: true });
 
-    window.addEventListener('touchend', (e) => {
-      if (!isTouchActive) return;
-      isTouchActive = false;
+    window.addEventListener('touchend', () => {
+      if (!isTouching) return;
+      isTouching = false;
 
-      const touchEndTime = performance.now();
-      const dt = touchEndTime - touchStartTime;
-      const touchEndY = e.changedTouches[0] ? e.changedTouches[0].clientY : touchStartY;
-      const dy = touchStartY - touchEndY; // > 0 means swiped UP (page scrolls DOWN)
+      // Fast flick detected (velocity > 0.45 px/ms)
+      if (Math.abs(velocity) > 0.45) {
+        const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+        const maxTravel = Math.min(window.innerHeight * 0.45, 340);
+        const travel = Math.sign(velocity) * Math.min(maxTravel, Math.abs(velocity) * 150);
+        const startY = window.scrollY;
+        const targetY = Math.max(0, Math.min(maxScroll, startY + travel));
 
-      // Only apply to fast flicks (duration < 320ms) with noticeable displacement (> 20px)
-      if (dt > 15 && dt < 320 && Math.abs(dy) > 20) {
-        const speed = Math.abs(dy) / dt; // px/ms
-        if (speed > 0.4) {
-          // Cap maximum swipe momentum to ~460px (roughly 1 screen or 1-2 cards)
-          const maxDistance = Math.min(window.innerHeight * 0.65, 480);
-          const travel = Math.min(maxDistance, Math.max(120, speed * 220));
-          const targetY = Math.max(
-            0,
-            Math.min(
-              document.documentElement.scrollHeight - window.innerHeight,
-              window.scrollY + Math.sign(dy) * travel
-            )
-          );
-
-          const startY = window.scrollY;
-          const delta = targetY - startY;
-          const duration = 380;
+        if (Math.abs(targetY - startY) > 5) {
           const startTime = performance.now();
-          const easeOut = t => 1 - Math.pow(1 - t, 3); // smooth cubic ease out
+          const duration = 260;
+          const easeOut = t => 1 - Math.pow(1 - t, 3);
 
-          const brakeFling = (now) => {
-            if (isTouchActive) return;
+          const stepFling = (now) => {
+            if (isTouching) return;
             const elapsed = now - startTime;
             if (elapsed < duration) {
-              const progress = easeOut(elapsed / duration);
-              window.scrollTo(0, startY + delta * progress);
-              flingId = requestAnimationFrame(brakeFling);
+              const p = easeOut(elapsed / duration);
+              window.scrollTo(0, startY + (targetY - startY) * p);
+              flingId = requestAnimationFrame(stepFling);
             } else {
               window.scrollTo(0, targetY);
               flingId = null;
             }
           };
 
-          setTimeout(() => {
-            if (!isTouchActive) {
-              flingId = requestAnimationFrame(brakeFling);
-            }
-          }, 30);
+          flingId = requestAnimationFrame(stepFling);
         }
       }
     }, { passive: true });
@@ -1186,6 +1214,7 @@
     const totalCount = data.entries.length;
     const latestDate = data.entries[0]?.date || '今日';
     const latestPaper = data.entries[0]?.paper_title ? data.entries[0].paper_title.split(':')[0] : '前沿精读';
+    const latestPaperHref = data.entries[0]?.paper_href || data.entries[0]?.href || '2026-11-11/papers/dpofusion.html';
 
     app.innerHTML = `
       <section class="hero">
@@ -1211,13 +1240,13 @@
               <div class="stat-val">${esc(latestDate)}</div>
             </div>
           </div>
-          <div class="stat-card">
+          <a href="${esc(latestPaperHref)}" class="stat-card stat-card-interactive" style="text-decoration:none;cursor:pointer;">
             <div class="stat-icon">🎯</div>
             <div class="stat-content">
-              <div class="stat-label">今日焦点</div>
-              <div class="stat-val">${esc(latestPaper)}</div>
+              <div class="stat-label">今日焦点 <span style="font-size:11px;opacity:0.8;">(点击直达)</span></div>
+              <div class="stat-val" style="color:var(--accent);">${esc(latestPaper)}</div>
             </div>
-          </div>
+          </a>
           <div class="stat-card">
             <div class="stat-icon">🚨</div>
             <div class="stat-content">
@@ -1264,6 +1293,26 @@
               <div>
                 <div class="quick-link-title">工具与技术雷达</div>
                 <div class="quick-link-desc">Geoopt 黎曼流形微分、KaTeX 数学渲染</div>
+              </div>
+            </div>
+            <span class="quick-link-arrow">→</span>
+          </a>
+          <a href="venue_tiers.html" class="quick-link-card">
+            <div class="quick-link-info">
+              <span class="stat-icon" style="width:34px;height:34px;font-size:16px;">📊</span>
+              <div>
+                <div class="quick-link-title">顶刊顶会评级与分区</div>
+                <div class="quick-link-desc">CCF第七版与中科院TOP期刊指南</div>
+              </div>
+            </div>
+            <span class="quick-link-arrow">→</span>
+          </a>
+          <a href="read_log.html" class="quick-link-card">
+            <div class="quick-link-info">
+              <span class="stat-icon" style="width:34px;height:34px;font-size:16px;">📚</span>
+              <div>
+                <div class="quick-link-title">已精读论文台账</div>
+                <div class="quick-link-desc">历史研报打分与一句话核心结论</div>
               </div>
             </div>
             <span class="quick-link-arrow">→</span>
