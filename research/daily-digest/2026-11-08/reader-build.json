@@ -5,7 +5,7 @@
   "renderer": {
     "scripts/build-digest-site.py": "22e999584c208a38af47d9b3996b208eccec5077a28aeb37c001a186d69e2f78",
     "scripts/digest-reader/reader.css": "5d3f1475d10408bfc3d2027719e2fc0efe42b39513b48c71971bdffad8dada29",
-    "scripts/digest-reader/reader.js": "77ecc90ccbe83f5bdcb7f1bc2084c42eafc9bf0f396f20289f52bd6f613b3e99",
+    "scripts/digest-reader/reader.js": "4bbc146f096023d0ad8ef1c62e24c125b455fb6537d00ad8a871832a659ce347",
     "scripts/digest-reader/vendor/dist/contrib/auto-render.js": "1f5492e68752a1b1fbcd500840ca1d0191c26131fdc36381b493a02c6b8d4bcf",
     "scripts/digest-reader/vendor/dist/contrib/auto-render.min.js": "bb53eb953394531aae36fdd537065c4244eb8542901a3ce914601d932675b8ac",
     "scripts/digest-reader/vendor/dist/contrib/auto-render.mjs": "42d3240990d45436d6dd4dfb36e7792448cdc2b602c47ac424fd09b1e93dbdfe",

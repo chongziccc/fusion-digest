@@ -396,7 +396,7 @@
     const stepAnimation = () => {
       const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
       targetY = clamp(targetY, 0, maxScroll);
-      currentY += (targetY - currentY) * 0.35;
+      currentY += (targetY - currentY) * 0.22;
 
       if (Math.abs(targetY - currentY) < 1) {
         currentY = targetY;
@@ -452,12 +452,14 @@
 
       if (rawDelta === 0) return;
 
-      // Normalized gentle step: clamp single wheel step to at most 50px
-      const step = Math.sign(rawDelta) * Math.min(Math.abs(rawDelta) * 0.42, 50);
+      // Treat every wheel notch as one small reading step. Trackpads and
+      // Android emulators often report huge deltas, so never scale the raw
+      // delta directly and never let a burst queue an entire screen.
+      const step = Math.sign(rawDelta) * 28;
       targetY += step;
 
-      // Restrain maximum forward lead to 50% of viewport height
-      const maxLead = window.innerHeight * 0.5;
+      // Keep at most three gentle steps queued in either direction.
+      const maxLead = 84;
       if (targetY > currentY + maxLead) targetY = currentY + maxLead;
       if (targetY < currentY - maxLead) targetY = currentY - maxLead;
 
