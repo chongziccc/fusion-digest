@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>tool_watch · 融合研究</title>
+<link rel="stylesheet" href="../../scripts/digest-reader/reader.css"><link rel="stylesheet" href="../../scripts/digest-reader/vendor/dist/katex.min.css">
+</head><body><header class="mast"><a href="index.html">融合研究 / 每日阅读</a><button id="theme" aria-label="切换深浅色">切换配色</button></header>
+<main id="app"></main><noscript><pre># 研究工具、Skill 与技术资讯台账
+
+初始化日期：2026-11-06（北京时间）。依据：[运行手册 8.1](../../scripts/daily-fusion-digest.runbook.md)。
+
+## 条目记录
+
+每条使用稳定 TOOL 编号，记录名称与类型、规范项目链接、具体 Skill 路径或功能、版本与发布日期、发现与核验日期、具体用途、相对已有能力的增量、证据范围、成本与兼容性、建议、实际试用状态、下一步。重要变化按日期追加，保留旧结论与负面反馈。
+
+### [TOOL-001] Docling (v2.12.0) — 学术文献多模态深度解析工具
+- **类型**：阅读与知识工具
+- **项目链接**：[docling-project/docling](https://github.com/docling-project/docling)
+- **版本与发布日期**：v2.12.0（2026-10 发布）
+- **核验日期**：2026-11-06
+- **具体用途**：高精度解析 IVIF 论文 PDF，端到端结构化抽取跨双栏复杂表格、数学公式 LaTeX 源码与图注，用于快速阅读、机制比对与公式重排。
+- **相对已有能力的增量**：相比传统纯文本抽取（pypdf/pdfminer），引入 DocLayNet 与 TableFormer 视觉多模态布局模型，能准确保留公式结构、矩阵表达与嵌套表格单元格。
+- **证据范围**：官方文档与 Releases 说明（无网络依赖本地实测待开展）。
+- **成本与兼容性**：完全开源免费，本地 Python 3.10+ 运行，支持 CUDA 加速；不上传数据，无隐私外泄风险。
+- **建议**：值得试用
+- **实际试用状态**：未试用
+- **具体下一步**：针对带有复杂张量与变分推导的 IVIF 论文（如 PCDFusion / NatureFusion），测试其复杂公式块还原完整度。
+
+### [TOOL-002] TorchCompile + FP8 Adapter 加速技术 — 生成式多模态轻量微调工程方案
+- **类型**：实验与工程技术
+- **项目链接**：[PyTorch Official Blog / TorchTitan](https://pytorch.org/blog/)
+- **版本与发布日期**：PyTorch 2.5/2.6 原生特性（2026-10）
+- **核验日期**：2026-11-06
+- **具体用途**：针对 Flow Matching / Diffusion 架构的 IVIF 生成式适配器（如 NatureFusion 风格），在消费级/专业级 GPU（RTX 4090 / A4000）上进行低显存高吞吐训练与推理。
+- **相对已有能力的增量**：相比常规 FP32/FP16，结合 Float8 (FP8) 计算与 `torch.compile` 图融合，可降低显存 40%，提升训练吞吐 1.8x~2.3x。
+- **证据范围**：官方技术博客与工程基准测试报告。
+- **成本与兼容性**：免费，需 Ada Lovelace / Hopper 架构以上支持 FP8；本地 A4000 (Ampere) 支持 BF16/FP16 编译融合，FP8 需进一步测试。
+- **建议**：持续关注
+- **实际试用状态**：未试用
+- **具体下一步**：在构建最小验证代码（MVP）时，编写可选 `torch.compile` 的推理脚本骨架。
+
+### [TOOL-003] Diffusers FlowMatching Pipeline + LoRA 解耦引擎 — 极速条件流匹配多模态生成框架
+- **类型**：Agent Skills、插件与实验工程技术
+- **项目链接**：[huggingface/diffusers](https://github.com/huggingface/diffusers)
+- **版本与发布日期**：v0.32.0（2026-10 发布）
+- **核验日期**：2026-11-07
+- **具体用途**：复现与验证 NatureFusion 风格的条件流匹配（Flow Matching）连续时间 ODE 求解，挂载多个解耦 LoRA（融合适配器 + 任务适配器），并在单卡消费级显卡上通过 4 步欧拉更新完成毫秒级推理。
+- **相对已有能力的增量**：相比经典扩散反向采样（DDIM/DPMSolver 需 20~50 步），原生支持速度向量场外推（$v^\star = \text{sg}[v(c_\emptyset) + w \Delta_{ir}]$）与单步伪解码，显存占用降低 35%，推理延迟降低 60%。
+- **证据范围**：官方 Release 0.32 说明与 Flow Matching ODE 教程实测文档。
+- **成本与兼容性**：开源免费，本地 Python 3.10+ / PyTorch 2.4+ 均可运行，单卡 RTX 3090 / A4000 即可完成 1024 分辨率微调。
+- **建议**：值得试用
+- **实际试用状态**：未试用
+- **具体下一步**：编写轻量级 4 步欧拉条件采样测试函数，用于后续物理机制与生成式融合算法对标。
+
+### [TOOL-004] Grounded-SAM-2 — 开放词表高精度实例分割与多模态目标提取引擎
+- **类型**：Agent Skills、阅读与实验工程工具
+- **项目链接**：[IDEA-Research/Grounded-SAM-2](https://github.com/IDEA-Research/Grounded-SAM-2)
+- **版本与发布日期**：2026 最新整合版 (Grounding DINO + SAM 2)
+- **核验日期**：2026-11-08
+- **具体用途**：在红外与可见光配准图像上，依据文本提示（如 `&quot;pedestrian&quot;`, `&quot;car&quot;`, `&quot;street light&quot;`）自动化提取精细二值掩码与语义边界，直接支撑实例级可控融合（如 ConFusion、ProtoFusion 及 IDEA-003）的掩码生成与测试评估。
+- **相对已有能力的增量**：相比 SAM 1 串联方案，引入流式紧凑注意力与记忆注意力机制，显存开销降低 40%，推理帧率提升 3 倍以上，边缘贴合精度更高。
+- **证据范围**：官方 GitHub 开源文档、示例 Notebook 与模型权重配置。
+- **成本与兼容性**：开源免费 Apache-2.0，本地 Python 3.10+ / PyTorch 2.3+，单卡 RTX 3090 / A4000 即可顺畅推理。
+- **建议**：值得试用
+- **实际试用状态**：未试用
+- **具体下一步**：在构建实例级可控融合的边界相容性测试集时，编写批处理脚本生成 MSRS 的高质量目标掩码。
+
+
+### [TOOL-005] Geoopt (v0.5.0) — PyTorch 黎曼流形与双曲几何微分计算引擎
+- **类型**：实验与工程技术 / 新研究技术
+- **项目链接**：[geoopt/geoopt](https://github.com/geoopt/geoopt)
+- **版本与发布日期**：v0.5.0（支持 PyTorch 2.0+ 黎曼优化与非欧空间流形反向传播）
+- **核验日期**：2026-11-09
+- **具体用途**：原生支持非欧黎曼流形上的张量微分计算与优化，包括庞加莱球（Poincaré Ball）、双曲曲率调节、指数/对数映射、Möbius 变换与黎曼优化器（Riemannian Adam / Riemannian SGD），直接支撑 TEDFusion 等双曲几何融合网络的流形计算。
+- **相对已有能力的增量**：相比在欧氏空间手工编写带数值截断的 $\tanh$ 与 $\text{arctanh}$，Geoopt 显式追踪流形切空间约束，防止浮点下溢与流形边界越界发散（$\sqrt{c}\|\mathbf{x}\| \ge 1$），提供严谨的流形梯度投影。
+- **证据范围**：官方 GitHub 文档、API 规范及流形测试用例。
+- **成本与兼容性**：开源免费 Apache-2.0，纯 Python/C++ 扩展，兼容 PyTorch 2.x，支持 CPU/CUDA。
+- **建议**：值得试用
+- **实际试用状态**：未试用
+- **具体下一步**：针对 Poincaré Ball 的 Möbius 变换编写 15 行单元测试，验证其在浮点边界的数值稳定性。
+
+### [TOOL-006] PEFT (v0.14.0) — Hugging Face 大模型轻量高效微调库
+- **类型**：实验与工程技术 / Agent Skills 与微调技术
+- **项目链接**：[huggingface/peft](https://github.com/huggingface/peft)
+- **版本与发布日期**：v0.14.0（核验日期：2026-11-10）
+- **具体用途**：支持视觉大模型主干（DINOv2 / DINOv3 / CLIP ViT）在融合任务中的高效低秩适配（LoRA），冻结 98% 原生权重，仅微调 $&lt;2\%$ 的旁路参数。
+- **相对已有能力的增量**：相较于在网络中手工编写未经优化的线性降维层，PEFT 提供了标准化的权重注入与零推理开销权重折叠（Merge），显存节省 80% 以上。
+- **证据范围**：官方文档与 Release 说明。
+- **成本与兼容性**：开源免费 Apache-2.0，兼容 PyTorch 2.0+，单卡 RTX 3090 / A4000 即可运行。
+- **建议**：值得试用
+- **实际试用状态**：未试用
+- **具体下一步**：编写测试脚本验证 LoRA 在小样本 M3FD 数据集上微调 ViT 的收敛稳定性。
+
+### [TOOL-007] TRL (v0.12.0) — Transformer Reinforcement Learning 偏好对齐套件
+- **类型**：Agent Skills、插件与实验工程技术
+- **项目链接**：[huggingface/trl](https://github.com/huggingface/trl)
+- **版本与发布日期**：v0.12.0（核验日期：2026-11-11）
+- **具体用途**：支持直接偏好优化（DPO）、ORPO 及基于扩散模型的偏好对齐（Diffusion-DPO），可直接对多模态潜特征生成模型执行配对偏好微调。
+- **相对已有能力的增量**：相较于手工推导并在 PyTorch 中编写复杂的对数似然差损失，TRL 提供了经过工业级检验的隐式奖励计算器、动态参考模型维护以及与 PEFT LoRA 的无缝集成。
+- **成本与兼容性**：开源免费 Apache-2.0，兼容 PyTorch 2.0+，单卡 RTX 3090 / A4000 即可运行微调。
+- **建议**：值得试用
+- **实际试用状态**：未试用
+- **具体下一步**：编写测试脚本验证其 Diffusion-DPO 接口与多模态潜在特征的对接兼容性。
+
+## 周度跟进
+
+- **2026-11-06 周度推荐试用**：建议首选试用 **TOOL-001 (Docling)** 解析本周精读论文 PCDFusion 的附录数学推导与消融表格，验证其是否能完整还原多行条件后验公式。
+
+</pre></noscript>
+<script type="application/json" id="reader-data">{"kind": "article", "date": "研究台账", "home": "index.html", "title": "tool_watch", "status": "原始记录", "source": "tool_watch.md", "markdown": "# 研究工具、Skill 与技术资讯台账\n\n初始化日期：2026-11-06（北京时间）。依据：[运行手册 8.1](../../scripts/daily-fusion-digest.runbook.md)。\n\n## 条目记录\n\n每条使用稳定 TOOL 编号，记录名称与类型、规范项目链接、具体 Skill 路径或功能、版本与发布日期、发现与核验日期、具体用途、相对已有能力的增量、证据范围、成本与兼容性、建议、实际试用状态、下一步。重要变化按日期追加，保留旧结论与负面反馈。\n\n### [TOOL-001] Docling (v2.12.0) — 学术文献多模态深度解析工具\n- **类型**：阅读与知识工具\n- **项目链接**：[docling-project/docling](https://github.com/docling-project/docling)\n- **版本与发布日期**：v2.12.0（2026-10 发布）\n- **核验日期**：2026-11-06\n- **具体用途**：高精度解析 IVIF 论文 PDF，端到端结构化抽取跨双栏复杂表格、数学公式 LaTeX 源码与图注，用于快速阅读、机制比对与公式重排。\n- **相对已有能力的增量**：相比传统纯文本抽取（pypdf/pdfminer），引入 DocLayNet 与 TableFormer 视觉多模态布局模型，能准确保留公式结构、矩阵表达与嵌套表格单元格。\n- **证据范围**：官方文档与 Releases 说明（无网络依赖本地实测待开展）。\n- **成本与兼容性**：完全开源免费，本地 Python 3.10+ 运行，支持 CUDA 加速；不上传数据，无隐私外泄风险。\n- **建议**：值得试用\n- **实际试用状态**：未试用\n- **具体下一步**：针对带有复杂张量与变分推导的 IVIF 论文（如 PCDFusion / NatureFusion），测试其复杂公式块还原完整度。\n\n### [TOOL-002] TorchCompile + FP8 Adapter 加速技术 — 生成式多模态轻量微调工程方案\n- **类型**：实验与工程技术\n- **项目链接**：[PyTorch Official Blog / TorchTitan](https://pytorch.org/blog/)\n- **版本与发布日期**：PyTorch 2.5/2.6 原生特性（2026-10）\n- **核验日期**：2026-11-06\n- **具体用途**：针对 Flow Matching / Diffusion 架构的 IVIF 生成式适配器（如 NatureFusion 风格），在消费级/专业级 GPU（RTX 4090 / A4000）上进行低显存高吞吐训练与推理。\n- **相对已有能力的增量**：相比常规 FP32/FP16，结合 Float8 (FP8) 计算与 `torch.compile` 图融合，可降低显存 40%，提升训练吞吐 1.8x~2.3x。\n- **证据范围**：官方技术博客与工程基准测试报告。\n- **成本与兼容性**：免费，需 Ada Lovelace / Hopper 架构以上支持 FP8；本地 A4000 (Ampere) 支持 BF16/FP16 编译融合，FP8 需进一步测试。\n- **建议**：持续关注\n- **实际试用状态**：未试用\n- **具体下一步**：在构建最小验证代码（MVP）时，编写可选 `torch.compile` 的推理脚本骨架。\n\n### [TOOL-003] Diffusers FlowMatching Pipeline + LoRA 解耦引擎 — 极速条件流匹配多模态生成框架\n- **类型**：Agent Skills、插件与实验工程技术\n- **项目链接**：[huggingface/diffusers](https://github.com/huggingface/diffusers)\n- **版本与发布日期**：v0.32.0（2026-10 发布）\n- **核验日期**：2026-11-07\n- **具体用途**：复现与验证 NatureFusion 风格的条件流匹配（Flow Matching）连续时间 ODE 求解，挂载多个解耦 LoRA（融合适配器 + 任务适配器），并在单卡消费级显卡上通过 4 步欧拉更新完成毫秒级推理。\n- **相对已有能力的增量**：相比经典扩散反向采样（DDIM/DPMSolver 需 20~50 步），原生支持速度向量场外推（$v^\\star = \\text{sg}[v(c_\\emptyset) + w \\Delta_{ir}]$）与单步伪解码，显存占用降低 35%，推理延迟降低 60%。\n- **证据范围**：官方 Release 0.32 说明与 Flow Matching ODE 教程实测文档。\n- **成本与兼容性**：开源免费，本地 Python 3.10+ / PyTorch 2.4+ 均可运行，单卡 RTX 3090 / A4000 即可完成 1024 分辨率微调。\n- **建议**：值得试用\n- **实际试用状态**：未试用\n- **具体下一步**：编写轻量级 4 步欧拉条件采样测试函数，用于后续物理机制与生成式融合算法对标。\n\n### [TOOL-004] Grounded-SAM-2 — 开放词表高精度实例分割与多模态目标提取引擎\n- **类型**：Agent Skills、阅读与实验工程工具\n- **项目链接**：[IDEA-Research/Grounded-SAM-2](https://github.com/IDEA-Research/Grounded-SAM-2)\n- **版本与发布日期**：2026 最新整合版 (Grounding DINO + SAM 2)\n- **核验日期**：2026-11-08\n- **具体用途**：在红外与可见光配准图像上，依据文本提示（如 `\"pedestrian\"`, `\"car\"`, `\"street light\"`）自动化提取精细二值掩码与语义边界，直接支撑实例级可控融合（如 ConFusion、ProtoFusion 及 IDEA-003）的掩码生成与测试评估。\n- **相对已有能力的增量**：相比 SAM 1 串联方案，引入流式紧凑注意力与记忆注意力机制，显存开销降低 40%，推理帧率提升 3 倍以上，边缘贴合精度更高。\n- **证据范围**：官方 GitHub 开源文档、示例 Notebook 与模型权重配置。\n- **成本与兼容性**：开源免费 Apache-2.0，本地 Python 3.10+ / PyTorch 2.3+，单卡 RTX 3090 / A4000 即可顺畅推理。\n- **建议**：值得试用\n- **实际试用状态**：未试用\n- **具体下一步**：在构建实例级可控融合的边界相容性测试集时，编写批处理脚本生成 MSRS 的高质量目标掩码。\n\n\n### [TOOL-005] Geoopt (v0.5.0) — PyTorch 黎曼流形与双曲几何微分计算引擎\n- **类型**：实验与工程技术 / 新研究技术\n- **项目链接**：[geoopt/geoopt](https://github.com/geoopt/geoopt)\n- **版本与发布日期**：v0.5.0（支持 PyTorch 2.0+ 黎曼优化与非欧空间流形反向传播）\n- **核验日期**：2026-11-09\n- **具体用途**：原生支持非欧黎曼流形上的张量微分计算与优化，包括庞加莱球（Poincaré Ball）、双曲曲率调节、指数/对数映射、Möbius 变换与黎曼优化器（Riemannian Adam / Riemannian SGD），直接支撑 TEDFusion 等双曲几何融合网络的流形计算。\n- **相对已有能力的增量**：相比在欧氏空间手工编写带数值截断的 $\\tanh$ 与 $\\text{arctanh}$，Geoopt 显式追踪流形切空间约束，防止浮点下溢与流形边界越界发散（$\\sqrt{c}\\|\\mathbf{x}\\| \\ge 1$），提供严谨的流形梯度投影。\n- **证据范围**：官方 GitHub 文档、API 规范及流形测试用例。\n- **成本与兼容性**：开源免费 Apache-2.0，纯 Python/C++ 扩展，兼容 PyTorch 2.x，支持 CPU/CUDA。\n- **建议**：值得试用\n- **实际试用状态**：未试用\n- **具体下一步**：针对 Poincaré Ball 的 Möbius 变换编写 15 行单元测试，验证其在浮点边界的数值稳定性。\n\n### [TOOL-006] PEFT (v0.14.0) — Hugging Face 大模型轻量高效微调库\n- **类型**：实验与工程技术 / Agent Skills 与微调技术\n- **项目链接**：[huggingface/peft](https://github.com/huggingface/peft)\n- **版本与发布日期**：v0.14.0（核验日期：2026-11-10）\n- **具体用途**：支持视觉大模型主干（DINOv2 / DINOv3 / CLIP ViT）在融合任务中的高效低秩适配（LoRA），冻结 98% 原生权重，仅微调 $\u003c2\\%$ 的旁路参数。\n- **相对已有能力的增量**：相较于在网络中手工编写未经优化的线性降维层，PEFT 提供了标准化的权重注入与零推理开销权重折叠（Merge），显存节省 80% 以上。\n- **证据范围**：官方文档与 Release 说明。\n- **成本与兼容性**：开源免费 Apache-2.0，兼容 PyTorch 2.0+，单卡 RTX 3090 / A4000 即可运行。\n- **建议**：值得试用\n- **实际试用状态**：未试用\n- **具体下一步**：编写测试脚本验证 LoRA 在小样本 M3FD 数据集上微调 ViT 的收敛稳定性。\n\n### [TOOL-007] TRL (v0.12.0) — Transformer Reinforcement Learning 偏好对齐套件\n- **类型**：Agent Skills、插件与实验工程技术\n- **项目链接**：[huggingface/trl](https://github.com/huggingface/trl)\n- **版本与发布日期**：v0.12.0（核验日期：2026-11-11）\n- **具体用途**：支持直接偏好优化（DPO）、ORPO 及基于扩散模型的偏好对齐（Diffusion-DPO），可直接对多模态潜特征生成模型执行配对偏好微调。\n- **相对已有能力的增量**：相较于手工推导并在 PyTorch 中编写复杂的对数似然差损失，TRL 提供了经过工业级检验的隐式奖励计算器、动态参考模型维护以及与 PEFT LoRA 的无缝集成。\n- **成本与兼容性**：开源免费 Apache-2.0，兼容 PyTorch 2.0+，单卡 RTX 3090 / A4000 即可运行微调。\n- **建议**：值得试用\n- **实际试用状态**：未试用\n- **具体下一步**：编写测试脚本验证其 Diffusion-DPO 接口与多模态潜在特征的对接兼容性。\n\n## 周度跟进\n\n- **2026-11-06 周度推荐试用**：建议首选试用 **TOOL-001 (Docling)** 解析本周精读论文 PCDFusion 的附录数学推导与消融表格，验证其是否能完整还原多行条件后验公式。\n\n"}</script>
+<script src="../../scripts/digest-reader/vendor/lib/marked.umd.js"></script><script src="../../scripts/digest-reader/vendor/dist/katex.min.js"></script>
+<script src="../../scripts/digest-reader/reader.js"></script></body></html>

@@ -1,0 +1,10 @@
+# 已精读论文台账
+
+| 日期 | ID 或 DOI | 标题 | 打分 | 一句话结论 |
+|---|---|---|---|---|
+| 2026-11-06 | arxiv:2610.23663 | PCDFusion: Proposal-Context-Detail Bayesian Rendering for Infrared-Visible Image Fusion | 10/12 | 提出三阶段局部贝叶斯后验渲染框架，以物理先验为锚点并结合神经网络估计相对对数证据，显式解决双模态物理非对称性与局部可靠性冲突 (NeurIPS 2026) |
+| 2026-11-07 | arxiv:2611.01607 | NatureFusion: Rethinking Infrared and Visible Image Fusion as Natural Complementary Enhancement | 9/12 | 摒弃传统“源保真度”与热辐射膏药式硬叠加，提出“自然互补增强”新范式；利用生成基座教师离线示范+条件流匹配蒸馏+解耦任务适配器放大红外互补贡献，在非对齐与下游检测上取得突破性鲁棒性 |
+| 2026-11-08 | arxiv:2607.23600 | ConFusion: Continuous Fusion Space Learning for Fine-Grained Controllable Infrared and Visible Image Fusion | 11/12 | 提出高斯条件连续流形调制与双分支特征正交解耦，打破传统离散 Prompt 限制，实现平滑连续、实例级可控融合 (ACM MM 2026) |
+| 2026-11-09 | arxiv:2606.15104 | Text-Driven Fusion for Infrared and Visible Images: Achieving Image Scene Adaptation on Hyperbolic Space | 11/12 | 提出双曲空间庞加莱球语义-场景对齐融合框架 TEDFusion，通过负曲率空间指数容积自然容纳多尺度树状层级语义，结合属性-文本门控实现训练期文本锚定引导与推理期零文本自适应融合 |
+| 2026-11-10 | arxiv:2608.29220 | SGPDFuse: Semantically-Guided Physics-Disentanglement General Multi-Modal Image Fusion | 11/12 | 提出语义引导的物理退化解耦框架，从数学上反证传统加权特征聚合在非负环境退化下的不可约简性；通过语义物理参数桥（SPPB）自适应剥离丢弃退化成分，实现高保真度分频融合与鲁棒重建 (ACM MM 2026) |
+| 2026-11-11 | arxiv:2605.06049 | Fusion in Your Way: Aligning Image Fusion with Heterogeneous Demands via Direct Preference Optimization | 12/12 | 提出基于直接偏好优化的多模态图像融合框架 DPOFusion，将潜在扩散模型属性插值与实例级 DPO (IDPO) 损失相结合，在单一基座上实现人类视觉、大模型指令与下游检测分割的自适应对齐 (CVPR 2026) |

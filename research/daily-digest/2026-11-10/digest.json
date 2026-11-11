@@ -1,0 +1,14 @@
+{
+  "schema_version": 6,
+  "date": "2026-11-10",
+  "title": "为什么多模态特征聚合无法消除环境退化？从物理不可约简性到语义参数解耦",
+  "status": "SUCCESS",
+  "tags": [
+    "物理退化解耦",
+    "不可约简性证明",
+    "语义物理参数桥",
+    "DINOv3",
+    "分频融合"
+  ],
+  "paper": "papers/sgpdfuse.md"
+}

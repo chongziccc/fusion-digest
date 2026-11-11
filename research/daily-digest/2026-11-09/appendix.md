@@ -1,0 +1,109 @@
+# 来源、候选与运行记录附录 (2026-11-09)
+
+> **归属报告**：2026-11-09 每日研报与多学科雷达（v6 分层版）  
+> **执行环境**：Orca 定时任务（时区基准：Asia/Shanghai）  
+> **运行状态**：SUCCESS（全部数据检索、深度精读、台账更新、冷启动回填收官与离线 HTML 构建均原子闭环）
+
+---
+
+## 一、候选论文池筛选与 TOP 5 排行榜
+
+### 1. 存量与增量候选总览
+今日执行了每日 7 天增量检索（arXiv cs.CV / eess.IV 及 Crossref 期刊）与冷启动历史切片 Slice 5（2026-06-09 至 2026-07-08）和 Slice 6（2026-05-10 至 2026-06-08）的全面回填。候选论文池中经去重与折叠后的 TOP 5 候选如下：
+
+| 排名 | Canonical ID | 论文标题 | 评分 | 发表状态与层次 | 全文状态 | 今日处置 |
+|---|---|---|---|---|---|---|
+| **TOP 1** | `arxiv:2606.15104` | **Text-Driven Fusion for Infrared and Visible Images: Achieving Image Scene Adaptation on Hyperbolic Space** (TEDFusion) | **11/12** | Preprint (arXiv cs.CV) / 待人工核实 | Available (已下载本地 PDF, 10.2MB) | **选为今日深度精读论文**，状态更新为 read |
+| **TOP 2** | `doi:10.1109/tpami.2026.3720312` | Universal Representation for Real-World Misaligned Infrared-Visible Image Fusion | **10/12** | Published (IEEE TPAMI 2026) / CCF-A, 1区TOP | Partial (需机构访问/无开源PDF) | 存量高分候选，持续追踪开源与全文 |
+| **TOP 3** | `doi:10.1109/tip.2026.3737049` | RealFusion: Rethinking Infrared and Visible Image Fusion From a Modality-Invariant Perspective | **9/12** | Published (IEEE TIP 2026) / CCF-A, 1区TOP | Partial (IEEE Xplore) | 存量高分候选，持续监视 |
+| **TOP 4** | `arxiv:2605.06049` | Fusion in Your Way: Aligning Image Fusion with Heterogeneous Demands via Direct Preference Optimization | **9/12** | Accepted (CVPR 2026 Main Track) / CCF-A | Available (arXiv PDF) | 回填切片 Slice 6 激活，入池待读 |
+| **TOP 5** | `doi:10.1109/tmm.2026.3746723` | DDFusion: Modality-Specific Degradation Decoupling for Robust Infrared-Visible Image Fusion | **9/12** | Published (IEEE TMM 2026) / CCF-A, 1区TOP | Partial (IEEE Xplore) | 存量高分候选，持续监视 |
+
+完整候选池不可变快照事件流请参阅：[candidate_pool.jsonl](../candidate_pool.jsonl)。
+
+---
+
+## 二、投稿日历周度刷新与截稿时区核实
+
+今天是周一（2026-11-09），按运行手册第 5 节规则执行未来 180 天全量投稿日历刷新，全部日期均基于官方 CFP 页面并通过 IANA 时区库严格换算至北京时间（UTC+8）：
+
+- **CVPR 2027 (CCF-A / 视觉第一盛会)**：
+  - 摘要注册截止：`2026-11-10 23:59:59 AoE` $\rightarrow$ **北京时间 2026-11-11 19:59:59**（倒计时剩余 **2.6 天**，预警等级：**【紧急】**）；
+  - 全文截止：`2026-11-17 23:59:59 AoE` $\rightarrow$ **北京时间 2026-11-18 19:59:59**（倒计时剩余 **9.6 天**，预警等级：**【紧急】**）；
+  - 官方 CFP 证据：[https://cvpr.thecvf.com/](https://cvpr.thecvf.com/)，双盲匿名，限 8 页正文。
+- **ICME 2027 (CCF-B)**：
+  - 全文截止：`2026-12-15 23:59:59 AoE` $\rightarrow$ **北京时间 2026-12-16 19:59:59**（倒计时剩余 **37 天**，预警等级：**【近期】**）；
+  - 官方链接：[https://2027.ieeeicme.org/](https://2027.ieeeicme.org/)。
+- **Information Fusion 特刊 (1 区 TOP, IF 15.5)**：
+  - 特刊主题：Physics-Informed and Multimodal Sensing for Complex Environments；
+  - 截稿时间：`2026-12-31 23:59:59 UTC` $\rightarrow$ **北京时间 2027-01-01 07:59:59**（倒计时剩余 **53 天**，预警等级：**【规划】**）；
+  - 官方链接：[ScienceDirect CFP](https://www.sciencedirect.com/journal/information-fusion)。
+- **IJCAI 2027 (CCF-B)**：
+  - 摘要截止：北京时间 2027-01-15 19:59；全文截止：2027-01-22 19:59（剩余 74 天，【规划】）。
+- **ICIP 2027 (CCF-C)**：
+  - 全文截止：北京时间 2027-01-29 07:59（剩余 81 天，【规划】）。
+- **ICCV 2027 (CCF-A)**：
+  - 摘要截止：北京时间 2027-03-04 19:59；全文截止：2027-03-11 19:59（剩余 122 天，【远期】）。
+- **IEEE TIP 特刊 (CCF-A / 1 区 TOP)**：
+  - 特刊主题：Non-Euclidean Representation and Foundation Models for Low-Level Vision；
+  - 截稿时间：北京时间 2027-03-16 07:59（剩余 127 天，【远期】）。
+- **ACM MM 2027 (CCF-A)**：
+  - 摘要截止：北京时间 2027-04-06 19:59；全文截止：2027-04-13 19:59（剩余 155 天，【远期】）。
+
+完整 180 天甘特时序与投递路线请参阅：[submission_calendar_180d.md](../submission_calendar_180d.md)。
+
+---
+
+## 三、网络检索日志、API 抓取状态与回填收官
+
+### 1. 抓取与 API 访问状态
+- **arXiv API**：访问成功（HTTP 200，耗时 1.2s）。执行了 7 天双轨增量查询（submittedDate & lastUpdatedDate）与历史切片定向追溯。
+- **Crossref API**：访问成功（HTTP 200，基于 ISSN 游标增量轮询），核查了 TPAMI、TIP、TMM、InfoFusion、PR 等重点期刊。
+- **PDF 原文下载**：成功从 arXiv 下载 `2606.15104v1` 原文 PDF 至 `research/daily-digest/2026-11-09/tedfusion.pdf`，文件完整（10,226,180 字节），SHA256 校验通过。
+- **外部社区与开源动态**：
+  - 检索知乎/Reddit/X：今日多模态融合领域无新增高信息量负面复现事故或数据集缺陷争议；
+  - 开源雷达：TEDFusion 官方释放 GitHub 源码及权重配置文件，可复现性标签核定为 `Code available` & `Weights available`（因白名单规则未进行本地克隆或独立运行验证，标记为 `Unverified by agent`）。
+
+### 2. 冷启动回填闭环（BACKFILL_COMPLETE）
+今日顺利完成了冷启动回填的最后两个时间窗口：
+- **Slice 5 (121~150d: 2026-06-09 至 2026-07-08)**：完成检索与初筛，发现 TEDFusion (`arxiv:2606.15104`, 11分) 与 SNN 融合 (`arxiv:2607.19879`, 7分)，全部激活入池；
+- **Slice 6 (151~180d: 2026-05-10 至 2026-06-08)**：完成检索与初筛，发现空间频率融合 (`arxiv:2605.13049`, 8分) 与 CVPR DPO 融合 (`arxiv:2605.06049`, 9分)，全部激活入池。
+- **回填结论**：全量 6 个切片（180 天跨度）已全部处理完毕，已在 [backfill_cursor.txt](../backfill_cursor.txt) 写入 `BACKFILL_COMPLETE` 终态标记。后续每日任务将恢复为常规双轨 7 天滚动增量检索。
+
+---
+
+## 四、跨学科机制映射与 Idea 台账关联
+
+今日提出跨学科迁移机制 **[IDEA-004]**，其映射逻辑与对比验证设计如下：
+
+1. **融合领域痛点**：模态共性与特性的欧氏线性正交约束（$\langle F_{com}, F_{spec}\rangle = 0$）导致强纠缠区域发生非物理特征硬截断与色彩断层；
+2. **外部学科来源**：理论物理 / 狭义相对论与伪黎曼几何（Pseudo-Riemannian Spacetime）；
+3. **机制原貌与映射**：
+   - 相对论中通过闵可夫斯基度规 $g = \mathrm{diag}(-1, 1, \dots, 1)$ 定义时空几何与因果光锥不变量 $s^2 = -c^2 \Delta t^2 + \|\Delta \mathbf{x}\|^2$；
+   - 映射到 IVIF：将红外热辐射定义为“类时间分量 $x_0$”（能量主导），可见光纹理定义为“类空间分量 $\mathbf{x}_{1:d}$”；
+   - 光锥内（$s^2 < 0$）为因果允许交互区，光锥外（$s^2 > 0$）为因果绝热屏蔽区，有效阻断退化噪声传播。
+4. **查重与状态**：经检索 IEEE Xplore 与 Crossref，IVIF 领域尚未出现伪黎曼度规与因果光锥解耦的先例。已登记为 `proposed` 状态。
+
+历史全部 Idea 演化记录请参阅：[idea_log.md](../idea_log.md)。
+
+---
+
+## 五、周度综合与研究脉络维护
+
+今天是周一，按照手册 9.2 规则，在 [research_threads.md](../research_threads.md) 中同步建立了带日期的周度综合：
+- **四大代表作全景透视**：PCDFusion (贝叶斯决策) $\rightarrow$ NatureFusion (生成式互补) $\rightarrow$ ConFusion (连续李普希茨调制) $\rightarrow$ TEDFusion (非欧双曲庞加莱球)；
+- **核心收敛建议**：集中推进 **[IDEA-003]**（功能梯度材料空间相容性）与 **[IDEA-004]**（时空光锥非欧解耦）的几何力学交叉，构建单卡可验证、具有严谨数学解释的统一非欧物理融合体系；
+- **新问题登记**：建立 **[QUESTION-004]**，深入追踪欧氏度量饱和与特征扁平化的数学根源；
+- **论文素材积累**：建立 **[CARD-IDEA-004]** 论文论证卡，骨架化图表设计与引言动机。
+
+---
+
+## 六、各研究台账相对链接索引
+
+- [已精读论文台账 (read_log.md)](../read_log.md)
+- [候选研究 Idea 台账 (idea_log.md)](../idea_log.md)
+- [研究问题、周度综合与论文论证素材 (research_threads.md)](../research_threads.md)
+- [研究工具与技术资讯台账 (tool_watch.md)](../tool_watch.md)
+- [未来 180 天投稿日历 (submission_calendar_180d.md)](../submission_calendar_180d.md)
+- [学术会议与期刊层次基准表 (venue_tiers.md)](../venue_tiers.md)
+- [全站离线阅读首页 (index.html)](../index.html)

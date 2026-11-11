@@ -1,0 +1,13 @@
+{
+  "schema_version": 6,
+  "date": "2026-11-08",
+  "title": "从离散提示到连续流形：实例级可控融合的空间相容性与边界重构",
+  "status": "SUCCESS",
+  "tags": [
+    "连续融合空间",
+    "高斯调制变量",
+    "双分支解耦",
+    "实例级可控融合"
+  ],
+  "paper": "papers/confusion.md"
+}
