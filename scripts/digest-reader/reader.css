@@ -3204,6 +3204,12 @@ dialog img { max-height: 80vh; border-radius: 8px; }
     align-items: center !important;
     padding: 4px 6px !important;
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+    transition: transform 0.24s ease, opacity 0.24s ease !important;
+  }
+  .mobile-bottom-bar.is-hidden {
+    transform: translateY(calc(100% + 24px)) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
   }
   .bottom-tab {
     display: flex !important;

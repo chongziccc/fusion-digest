@@ -353,6 +353,22 @@
       });
     });
 
+    // Keep the dock out of the way while reading. It returns as soon as the
+    // user scrolls upward, which preserves navigation without covering cards.
+    let lastScrollY = window.scrollY;
+    let dockTicking = false;
+    window.addEventListener('scroll', () => {
+      if (dockTicking) return;
+      dockTicking = true;
+      requestAnimationFrame(() => {
+        const currentY = window.scrollY;
+        if (currentY > lastScrollY + 8 && currentY > 120) bottomNav.classList.add('is-hidden');
+        else if (currentY < lastScrollY - 4) bottomNav.classList.remove('is-hidden');
+        lastScrollY = currentY;
+        dockTicking = false;
+      });
+    }, { passive: true });
+
     document.body.appendChild(bottomNav);
   }
 
