@@ -94,8 +94,6 @@ html { scroll-behavior: auto; }
 body {
   margin: 0;
   background-color: var(--bg);
-  background-image: var(--bg-mesh);
-  background-attachment: fixed;
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: 15px;
@@ -103,6 +101,19 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+  position: relative;
+}
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: var(--bg-mesh);
+  background-attachment: scroll;
+  z-index: -1;
+  pointer-events: none;
 }
 
 a {
@@ -2464,6 +2475,40 @@ dialog img { max-height: 80vh; border-radius: 8px; }
   color: var(--muted);
   background: var(--surface);
   border-color: var(--line);
+}
+
+/* Floating Back to Top FAB */
+.btn-back-to-top {
+  position: fixed;
+  bottom: 70px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(19, 46, 43, 0.92);
+  border: 1px solid var(--accent-border);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px) scale(0.9);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-back-to-top.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+.btn-back-to-top:active {
+  transform: scale(0.92);
 }
 
 /* Toolbar secondary row */

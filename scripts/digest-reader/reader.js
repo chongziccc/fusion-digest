@@ -251,6 +251,102 @@
     }, { passive: false });
   })();
 
+  // Floating Back to Top Button
+  (() => {
+    let topBtn = document.getElementById('back-to-top-fab');
+    if (!topBtn) {
+      topBtn = document.createElement('button');
+      topBtn.id = 'back-to-top-fab';
+      topBtn.className = 'btn-back-to-top';
+      topBtn.setAttribute('aria-label', '返回顶部');
+      topBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>';
+      topBtn.onclick = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+      document.body.appendChild(topBtn);
+    }
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) {
+        topBtn.classList.add('is-visible');
+      } else {
+        topBtn.classList.remove('is-visible');
+      }
+    }, { passive: true });
+  })();
+
+  // Touch Swipe / Fling Momentum Limiter (Prevents single flick from rocketing past whole page)
+  (() => {
+    let touchStartY = 0;
+    let touchStartTime = 0;
+    let isTouchActive = false;
+    let flingId = null;
+
+    window.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        isTouchActive = true;
+        touchStartY = e.touches[0].clientY;
+        touchStartTime = performance.now();
+        if (flingId) {
+          cancelAnimationFrame(flingId);
+          flingId = null;
+        }
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+      if (!isTouchActive) return;
+      isTouchActive = false;
+
+      const touchEndTime = performance.now();
+      const dt = touchEndTime - touchStartTime;
+      const touchEndY = e.changedTouches[0] ? e.changedTouches[0].clientY : touchStartY;
+      const dy = touchStartY - touchEndY; // > 0 means swiped UP (page scrolls DOWN)
+
+      // Only apply to fast flicks (duration < 320ms) with noticeable displacement (> 20px)
+      if (dt > 15 && dt < 320 && Math.abs(dy) > 20) {
+        const speed = Math.abs(dy) / dt; // px/ms
+        if (speed > 0.4) {
+          // Cap maximum swipe momentum to ~460px (roughly 1 screen or 1-2 cards)
+          const maxDistance = Math.min(window.innerHeight * 0.65, 480);
+          const travel = Math.min(maxDistance, Math.max(120, speed * 220));
+          const targetY = Math.max(
+            0,
+            Math.min(
+              document.documentElement.scrollHeight - window.innerHeight,
+              window.scrollY + Math.sign(dy) * travel
+            )
+          );
+
+          const startY = window.scrollY;
+          const delta = targetY - startY;
+          const duration = 380;
+          const startTime = performance.now();
+          const easeOut = t => 1 - Math.pow(1 - t, 3); // smooth cubic ease out
+
+          const brakeFling = (now) => {
+            if (isTouchActive) return;
+            const elapsed = now - startTime;
+            if (elapsed < duration) {
+              const progress = easeOut(elapsed / duration);
+              window.scrollTo(0, startY + delta * progress);
+              flingId = requestAnimationFrame(brakeFling);
+            } else {
+              window.scrollTo(0, targetY);
+              flingId = null;
+            }
+          };
+
+          setTimeout(() => {
+            if (!isTouchActive) {
+              flingId = requestAnimationFrame(brakeFling);
+            }
+          }, 30);
+        }
+      }
+    }, { passive: true });
+  })();
+
   const safeURL = value => {
     const url = String(value).replace(/[\u0000-\u0020\u007f]/g, '');
     if (/^(?:https?:|mailto:|file:)/i.test(url) || !/^[a-z][a-z\d+.-]*:/i.test(url)) return url;
