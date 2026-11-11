@@ -358,6 +358,15 @@ body.wide-mode .layout, main.wide-mode .layout {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+#hero-countdown-val {
+  /* The live CFP string is longer than a two-column card on phones. Keep the
+     complete deadline visible instead of hiding the remaining time behind an
+     ellipsis. */
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  line-height: 1.2;
+}
   margin-bottom: 2px;
 }
 .stat-val {
@@ -2717,6 +2726,10 @@ dialog img { max-height: 80vh; border-radius: 8px; }
     font-size: 13px !important;
     line-height: 1.6 !important;
     margin-bottom: 14px !important;
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 2 !important;
+    overflow: hidden !important;
   }
 
   /* Stats Grid (Clean 2x2 cards) */
@@ -2757,6 +2770,12 @@ dialog img { max-height: 80vh; border-radius: 8px; }
     overflow: hidden !important;
     text-overflow: ellipsis !important;
   }
+  #hero-countdown-val {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    line-height: 1.2 !important;
+  }
 
   /* Quick links (Modern 2x3 Grid with descriptions & chevrons) */
   .quick-links-bar {
@@ -2775,6 +2794,7 @@ dialog img { max-height: 80vh; border-radius: 8px; }
     text-decoration: none !important;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
     min-width: 0 !important;
+    min-height: 58px !important;
   }
   .quick-link-card:active {
     transform: scale(0.96) !important;
@@ -2804,7 +2824,7 @@ dialog img { max-height: 80vh; border-radius: 8px; }
     flex: 1 !important;
   }
   .quick-link-title {
-    font-size: 12px !important;
+    font-size: 13.5px !important;
     font-weight: 650 !important;
     color: var(--ink) !important;
     white-space: nowrap !important;
@@ -2813,13 +2833,7 @@ dialog img { max-height: 80vh; border-radius: 8px; }
     line-height: 1.35 !important;
   }
   .quick-link-desc {
-    display: block !important;
-    font-size: 10px !important;
-    color: var(--muted) !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    margin-top: 1px !important;
+    display: none !important;
   }
   .quick-link-arrow {
     display: inline-flex !important;
@@ -3225,7 +3239,7 @@ dialog img { max-height: 80vh; border-radius: 8px; }
     height: 20px !important;
   }
   main {
-    padding-bottom: 96px !important;
+    padding-bottom: 124px !important;
   }
 }
 

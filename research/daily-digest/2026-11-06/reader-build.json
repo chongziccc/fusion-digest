@@ -4,7 +4,7 @@
   "legacy": true,
   "renderer": {
     "scripts/build-digest-site.py": "22e999584c208a38af47d9b3996b208eccec5077a28aeb37c001a186d69e2f78",
-    "scripts/digest-reader/reader.css": "8a6cf4ef2394864e671b4c7f0f19e67535c521d08fd510c0357a86818048ce6a",
+    "scripts/digest-reader/reader.css": "42677605ce3b9a37fd5df59455c5e6054d8bd73d254998e47583c766e33021a0",
     "scripts/digest-reader/reader.js": "6c75f2fbc4a779e5574e545ab5b424267c5f96d4d6d40e296f288d6866104f3e",
     "scripts/digest-reader/vendor/dist/contrib/auto-render.js": "1f5492e68752a1b1fbcd500840ca1d0191c26131fdc36381b493a02c6b8d4bcf",
     "scripts/digest-reader/vendor/dist/contrib/auto-render.min.js": "bb53eb953394531aae36fdd537065c4244eb8542901a3ce914601d932675b8ac",
