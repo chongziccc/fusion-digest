@@ -1404,7 +1404,7 @@
   if (data.kind === 'index') {
     const totalCount = data.entries.length;
     const latestDate = data.entries[0]?.date || '今日';
-    const latestPaper = data.entries[0]?.paper_title ? data.entries[0].paper_title.split(':')[0] : '前沿精读';
+    const latestPaper = data.entries[0]?.paper_title ? data.entries[0].paper_title.split(/[:：]/)[0].trim() : '前沿精读';
     const latestPaperHref = data.entries[0]?.paper_href || data.entries[0]?.href || '2026-11-11/papers/dpofusion.html';
 
     app.innerHTML = `
