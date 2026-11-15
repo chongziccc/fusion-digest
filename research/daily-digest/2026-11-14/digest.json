@@ -1,0 +1,14 @@
+{
+  "schema_version": 6,
+  "date": "2026-11-14",
+  "title": "真实视差下双模态图像无法严格对齐时，融合网络该如何自愈？",
+  "status": "SUCCESS",
+  "tags": [
+    "未配准图像融合",
+    "通用表征解耦",
+    "主平面先验",
+    "双向耦合自愈",
+    "IEEE TPAMI 2026"
+  ],
+  "paper": "papers/URMIF_tpami2026.md"
+}

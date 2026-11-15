@@ -1669,7 +1669,7 @@
               ${paperHref ? `<a href="${esc(paperHref)}" class="btn-secondary-action">🔬 论文深度精读</a>` : ''}
               <div class="subtle-actions">
                 ${!e.legacy ? `<a href="${esc(appendixHref)}" class="btn-ghost-action">附录</a>` : ''}
-                <a href="${esc(e.href.replace('.html', '.md'))}" class="btn-ghost-action">MD</a>
+                <a href="${esc(e.href)}#markdown-source" class="btn-ghost-action">Markdown 原稿</a>
               </div>
             </div>
           </article>
@@ -1765,7 +1765,7 @@
               <span>📋</span> 来源与记录
             </a>
           ` : ''}
-          <a href="${esc(data.source)}" class="tab-item tab-ghost">
+          <a href="#markdown-source" class="tab-item tab-ghost">
             <span>📄</span> Markdown 原稿
           </a>
         </nav>
@@ -1778,7 +1778,7 @@
           <a href="venue_tiers.html" class="tab-item ${data.source && data.source.includes('venue_tiers') ? 'active' : ''}">📊 评级分区</a>
           <a href="tool_watch.html" class="tab-item ${data.source && data.source.includes('tool_watch') ? 'active' : ''}">🛠️ 工具雷达</a>
           <a href="read_log.html" class="tab-item ${data.source && data.source.includes('read_log') ? 'active' : ''}">📚 精读台账</a>
-          <a href="${esc(data.source)}" class="tab-item tab-ghost">📄 Markdown 原稿</a>
+          <a href="#markdown-source" class="tab-item tab-ghost">📄 Markdown 原稿</a>
         </nav>
       `}
     </header>
@@ -1799,6 +1799,25 @@
 
   const article = app.querySelector('article');
   renderMarkdown(data.markdown, article);
+
+  // Use the already decoded, embedded UTF-8 source instead of navigating to
+  // a raw .md response whose charset WebView may guess incorrectly.
+  const sourceDialog = document.createElement('dialog');
+  sourceDialog.className = 'markdown-source-dialog';
+  sourceDialog.innerHTML = '<header><strong>Markdown 原稿</strong><button type="button" autofocus>关闭</button></header><pre></pre>';
+  sourceDialog.querySelector('pre').textContent = data.markdown || '';
+  document.body.appendChild(sourceDialog);
+  const closeSource = () => {
+    sourceDialog.close();
+    if (location.hash === '#markdown-source') history.replaceState(null, '', location.pathname + location.search);
+  };
+  sourceDialog.querySelector('button').onclick = closeSource;
+  sourceDialog.addEventListener('cancel', event => { event.preventDefault(); closeSource(); });
+  const openSource = () => { if (!sourceDialog.open) sourceDialog.showModal(); };
+  app.querySelectorAll('a[href="#markdown-source"]').forEach(link => {
+    link.addEventListener('click', event => { event.preventDefault(); openSource(); });
+  });
+  if (location.hash === '#markdown-source') openSource();
 
   // Live Dynamic Countdown Engine for Submission Calendar
   if (data.source && data.source.includes('submission_calendar')) {

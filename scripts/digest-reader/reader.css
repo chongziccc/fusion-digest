@@ -91,6 +91,20 @@
 /* Base resets & typography */
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: auto; }
+.markdown-source-dialog {
+  box-sizing: border-box;
+  width: min(920px, calc(100% - 24px));
+  max-height: 85dvh;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+}
+.markdown-source-dialog header { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.markdown-source-dialog button { min-height: 44px; padding: 8px 18px; cursor: pointer; }
+.markdown-source-dialog pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px; line-height: 1.75; user-select: text; }
+.markdown-source-dialog::backdrop { background: rgba(0,0,0,.65); }
 body {
   margin: 0;
   background-color: var(--bg);

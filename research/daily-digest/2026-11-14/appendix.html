@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>来源与运行记录 · 融合研究</title>
+<link rel="stylesheet" href="../../../scripts/digest-reader/reader.css"><link rel="stylesheet" href="../../../scripts/digest-reader/vendor/dist/katex.min.css">
+</head><body><header class="mast"><a href="../index.html">融合研究 / 每日阅读</a><button id="theme" aria-label="切换深浅色">切换配色</button></header>
+<main id="app"></main><noscript><pre># 2026-11-14 研报附录：检索来源、TOP 5 候选、投稿监测与跨学科机制
+
+&gt; 本附录记录当日增量检索明细、学术层次核实证据、投稿日历轻量监测、跨学科机制完整映射及运行环境记录。  
+&gt; 台账汇总请参阅：[候选论文池 (candidate_pool.jsonl)](candidate_pool.jsonl) ｜ [已读台账 (read_log.md)](read_log.md) ｜ [Idea 台账 (idea_log.md)](idea_log.md) ｜ [研究线索 (research_threads.md)](research_threads.md) ｜ [工具雷达 (tool_watch.md)](tool_watch.md)
+
+---
+
+## 1. 增量检索与抓取记录
+
+### 1.1 检索覆盖范围与执行统计
+- **检索日期窗口**：2026-11-07 至 2026-11-14（滚动 7 天增量检索，基准时区：`Asia/Shanghai`）。
+- **数据源与抓取状态**：
+  - **arXiv 双轨检索（`submittedDate` &amp; `lastUpdatedDate`）**：
+    - 分类范围：`cs.CV`, `eess.IV`, `physics.optics`, `physics.app-ph`。
+    - 检索表达式：`(infrared OR thermal) AND (visible OR RGB) AND fusion` 以及 `&quot;multi-modality image fusion&quot;` / 物理先验组合。
+    - 抓取状态：成功完成，检索到匹配条目，其中排除了非静态图像任务（如 `STAR-VF` 为时空视频融合，不属于 0.2 单帧静态任务）、综述论文（如 `Navigational Safety of Marine Surface Vehicles`）以及历史已入池论文（如 `TeX-Gen` arxiv:2611.10665 已于 11-12 完成精读）。
+    - 发现 1 篇近期入池高价值候选：`ProtoFusion: Protocol-Guided Prompt Refinement for Generative Infrared and Visible Image Fusion` (arxiv:2611.02877)。
+  - **Crossref 期刊增量**：
+    - 覆盖期刊：IEEE TPAMI (0162-8828), IEEE TIP (1057-7149), IEEE TMM (1520-9210), IEEE TCSVT (1051-8215), Information Fusion (1566-2535), Pattern Recognition (0031-3203), ESWA (0957-4174)。
+    - 抓取状态：成功完成游标遍历，核实存量顶刊论文的正式见刊与卷期分配信息。
+  - **社区讨论与开源跟踪**：
+    - 针对 URMIF 开源仓库 [ZengxiZhang/URMIF](https://github.com/ZengxiZhang/URMIF) 与 RIVIR 数据集进行了结构核验：仓库提供完整 PyTorch 评估测试与分层变形网络代码，数据集包含 1,300+ 真实未配准图像对；标注可复现性标签为 `Code available` &amp; `Author-reported reproducible`。
+
+---
+
+## 2. TOP 5 精读候选论文列表（按 12 分制综合排序）
+
+依据运行手册第 6.1 节评分准则（满分 12 分，创新优先）：
+
+| 排名 | 规范 ID | 论文标题 | 录用/发表层次 | 评分明细 (关/创/迁/层/验/代) | 总分 | 全文状态与处理动作 |
+|---|---|---|---|---|---|---|
+| **1** | **doi:10.1109/tpami.2026.3720312** | **Universal Representation for Real-World Misaligned Infrared-Visible Image Fusion (URMIF)** | **Published (IEEE TPAMI, CCF-A / 1 区 TOP, IF 20.8)** | **(3/3/2/1/1/0)** | **10** | **官方出版全文与代码公开，选定为今日核心深度精读** |
+| 2 | doi:10.1109/tip.2026.3737049 | RealFusion: Rethinking Infrared and Visible Image Fusion From a Modality-Invariant Perspective | Published (IEEE TIP, CCF-A / 1 区 TOP, IF 13.7) | (3/2/2/1/1/0) | 9 | 存量高分未读候选，保持 unread 排队 |
+| 3 | doi:10.1109/tmm.2026.3746723 | DDFusion: Modality-Specific Degradation Decoupling for Robust Infrared-Visible Image Fusion | Published (IEEE TMM, CCF-A / 1 区 TOP, IF 9.8) | (3/2/2/1/1/0) | 9 | 存量高分未读候选，保持 unread 排队 |
+| 4 | arxiv:2610.09330 | CRT-HMAR: Causal Requirement Tracing-Guided Hierarchical Multi-Agent Regulation for Open-Task-Aware Infrared-Visible Image Fusion | Preprint (arXiv cs.CV / NJUST) | (3/2/1/0/1/1) | 8 | 新候选，保持 unread 排队 |
+| 5 | arxiv:2611.02877 | ProtoFusion: Protocol-Guided Prompt Refinement for Generative Infrared and Visible Image Fusion | Preprint (arXiv cs.CV / HIT) | (3/2/1/0/1/1) | 8 | 新候选，保持 unread 排队 |
+
+---
+
+## 3. 投稿日历轻量监测（未来 45 天截稿项核验）
+
+依据运行手册第 4.2 节，基准时间：北京时间 2026-11-14 03:46:00（时区：`Asia/Shanghai`）。
+
+| 会议 / 特刊 | 层次 | 截稿类型 | 官方截止原文与时区 | 北京时间换算 ($T_{\text{deadline}}$) | 剩余时间 $\Delta$ | 预警等级 | 官方 CFP 页面与核验状态 |
+|---|---|---|---|---|---|---|---|
+| **CVPR 2027 (Abstract)** | CCF-A | 摘要注册 (Main Track) | 2026-11-10 23:59:59 AoE | 2026-11-11 19:59:59 | $\Delta \le 0$（已过 2.3 天） | **已截止 (Closed)** | [CVPR 2027](https://cvpr.thecvf.com/)，历史归档，不再预警 |
+| **CVPR 2027 (Full Paper)** | CCF-A | 全文截稿 (Main Track) | 2026-11-16 23:59:59 AoE | 2026-11-17 19:59:59 | 剩余 **3.68 天** | **【紧急】** | [CVPR 2027](https://cvpr.thecvf.com/)，无延期通知；严格双盲（正文限 8 页），冲刺终稿校验 |
+| **CVPR 2027 (Supplementary)** | CCF-A | 补充材料截稿 | 2026-11-23 23:59:59 AoE | 2026-11-24 19:59:59 | 剩余 **10.68 天** | **【紧急】** | [CVPR 2027](https://cvpr.thecvf.com/)，用于补充数学证明推导、更丰富定性对比与极限退化消融 |
+| **ICME 2027** | CCF-B | 全文截稿 (Main Track) | 2026-12-15 23:59:59 AoE | 2026-12-16 19:59:59 | 剩余 **32.68 天** | **【近期】** | [ICME 2027](https://2027.ieeeicme.org/)，时间平稳 |
+| **Information Fusion Special Issue** | 1 区 TOP | 特刊全文截稿 | 2026-12-31 23:59:59 UTC | 2027-01-01 07:59:59 | 剩余 **48.17 天** | **【规划】** | [InfoFusion CFP](https://www.sciencedirect.com/journal/information-fusion) |
+
+---
+
+## 4. 跨学科机制完整映射与创新假说 (IDEA-009)
+
+依据运行手册第 9 节规定，固定六步严格论述：
+
+1. **融合中的失效现象**：  
+   在车载、无人机等非严格配准 IVIF 场景中，即便采用全局主平面单应性对齐，地面上的三维立体目标（如站立行人、行进车辆、路灯立杆）与背景地面之间仍然存在垂直方向的巨大真实视差（Parallax）。由于当前深度形变场普遍采用连续性平滑先验（如全变分正则或 $L_2$ 梯度惩罚 $\|\nabla \mathbf{u}\|^2$），强行假设整个画面的位移是空间连续函数，导致在 3D 目标轮廓交界线上发生非物理的“橡胶薄膜牵拉现象”——前景目标的边界被强行拉扯变形，周围背景像素被挤压扭曲，在融合图像中形成严重的锯齿拉丝、目标边缘虚焦以及轮廓外侧光晕伪影。
+
+2. **外部学科机制原貌（断裂力学与复合材料力学 / 内聚力模型 Cohesive Zone Model, CZM）**：  
+   在固体力学中，层状复合材料或开裂基体承受大剪切载荷时，材料内部遵循连续弹性变形，但在层间界面或裂纹扩展前缘会产生微观脱粘与滑移。经典的 **Barenblatt-Dugdale 内聚力模型** 将整个位移场解耦为内部连续变形与界面处的有限位移跃变（Displacement Jump）：
+   $$\mathbf{u}(\mathbf{x}) = \mathbf{u}_{\text{continuous}}(\mathbf{x}) + H(\mathbf{x} \in \Omega_{\text{fg}}) \cdot [\![ \mathbf{u} ]\!](\mathbf{x})$$
+   界面两端承受的法向与剪切牵引力 $\mathbf{T}$ 与跃变量 $[\![ \mathbf{u} ]\!]$ 遵循**内聚牵引力-分离定律（Traction-Separation Law）**。当剪切应变超过临界软化阈值时，界面允许产生有限的不连续位移释放集中应力，从而避免基底发生非物理的极端畸变断裂。
+
+3. **机制抽象与映射**：  
+   - 连续弹性介质基底 $\longleftrightarrow$ 大尺度主平面背景（地面、墙面）；
+   - 界面缺陷与剪切应力集中带 $\longleftrightarrow$ 3D 立体目标（行人、车辆）与主平面背景的深度分界轮廓线 $\Gamma_{\text{edge}}$；
+   - 界面内聚位移跃变 $[\![ \mathbf{u} ]\!]$ $\longleftrightarrow$ 前景目标相对背景主平面的残余视差跃变（Disparity Jump）；
+   - 内聚自由能耗散软化 $\longleftrightarrow$ 允许变形场在语义深度边界处打破连续平滑惩罚，以有边界的牵引力罚项吸收几何视差跳变。
+
+4. **融合领域查重**：  
+   - 检索表达式：`(&quot;cohesive zone&quot; OR &quot;displacement jump&quot; OR &quot;traction separation&quot;) AND (&quot;infrared&quot; OR &quot;visible&quot;) AND (&quot;fusion&quot; OR &quot;registration&quot;)` 在 IEEE Xplore、Crossref 与 Google Scholar 全库检索。
+   - 检索结果：0 篇命中。现有非配准融合（如 URMIF、RFN-Nest、RFNet）均沿用传统光流的连续平滑假设或局部可形变卷积，尚无引入固体力学内聚界面位移跃变算子的先例，属力学机理跨界首创。
+
+5. **创新假说与最小验证（MVP）**：  
+   - **创新假说**：在双分支通用解耦框架中，若将稠密变形场参数化为“主平面连续形变基底 + 语义边界内聚位移跃变场”，并以可微分内聚势能损失替代深度边缘的 $L_2$ 平滑惩罚，则能消除目标边缘的橡胶拉扯伪影，使 3D 前景边缘清晰度与对齐精度同步提升。
+   - **数据与对照组**：选用 RIVIR 数据集中具有典型近景行人大视差的 40 对图像；基线组为 URMIF 官方标准连续形变场，实验组在检测/分割掩码边缘挂载内聚位移跃变算子。
+   - **成功判据**：目标边界法向梯度过渡宽度缩窄 30% 以上，局部边缘重影伪影指标 $N_{abf}$ 降低 25% 以上，且主平面背景平滑性不受破坏。
+   - **失败判据**：内聚跃变导致前景目标整体漂移脱节，或在无视差平坦区域发生误判跃变。
+
+6. **证据等级**：［合理推测 / 待实验验证］。
+
+---
+
+## 5. 工具资讯核验明细：RoMa v2
+
+- **登记编号**：[TOOL-010]
+- **项目全称**：RoMa v2: Harder Better Faster Denser Feature Matching
+- **官方开源代码**：[Parskatt/RoMaV2 (GitHub)](https://github.com/Parskatt/RoMaV2) ｜ 论文链接：[arXiv:2406.18520](https://arxiv.org/abs/2406.18520) (CVPR 2024 / TPAMI 2025)
+- **技术定位**：结合视觉基础模型（DINOv2/DINOv3）与多尺度局部金字塔的稠密特征匹配与变形场估计引擎。
+- **与已有工具对比的增量**：
+  - 相比 SuperPoint + SuperGlue / LightGlue：后者仅能在角点处提取离散稀疏点对，在光滑路面、暗光无纹理区极易失效；
+  - RoMa v2 直接对整幅图像进行稠密特征回归，输出全分辨率的逐像素变换向量场 $\mathbf{W}(x, y)$ 与匹配可信度掩码 $C(x, y)$，与 URMIF 的分层变形估计具有天然互补性。
+- **环境兼容性**：Python 3.10+, PyTorch 2.0+, 支持 CUDA FP16 推理；单卡 A4000 (16GB) 可在 60ms 内完成 $640 \times 480$ 图像对匹配。
+
+---
+
+## 6. 运行环境与审计记录
+
+- **执行日期**：2026-11-14
+- **运行模式**：Orca 每日定时研报任务（v6 架构分层离线渲染）
+- **时区基准**：Asia/Shanghai (UTC+8)
+- **脚本入口**：`scripts/build-digest-site.ps1`
+- **安全白名单审计**：严格只读外部检索，无 Git 修改，无第三方代码执行，无外挂网络写入，运行锁机制完备。
+</pre></noscript>
+<script type="application/json" id="reader-data">{"kind": "article", "date": "2026-11-14", "home": "../index.html", "legacy": false, "status": "SUCCESS", "title": "来源与运行记录", "markdown": "# 2026-11-14 研报附录：检索来源、TOP 5 候选、投稿监测与跨学科机制\n\n> 本附录记录当日增量检索明细、学术层次核实证据、投稿日历轻量监测、跨学科机制完整映射及运行环境记录。  \n> 台账汇总请参阅：[候选论文池 (candidate_pool.jsonl)](candidate_pool.jsonl) ｜ [已读台账 (read_log.md)](read_log.md) ｜ [Idea 台账 (idea_log.md)](idea_log.md) ｜ [研究线索 (research_threads.md)](research_threads.md) ｜ [工具雷达 (tool_watch.md)](tool_watch.md)\n\n---\n\n## 1. 增量检索与抓取记录\n\n### 1.1 检索覆盖范围与执行统计\n- **检索日期窗口**：2026-11-07 至 2026-11-14（滚动 7 天增量检索，基准时区：`Asia/Shanghai`）。\n- **数据源与抓取状态**：\n  - **arXiv 双轨检索（`submittedDate` \u0026 `lastUpdatedDate`）**：\n    - 分类范围：`cs.CV`, `eess.IV`, `physics.optics`, `physics.app-ph`。\n    - 检索表达式：`(infrared OR thermal) AND (visible OR RGB) AND fusion` 以及 `\"multi-modality image fusion\"` / 物理先验组合。\n    - 抓取状态：成功完成，检索到匹配条目，其中排除了非静态图像任务（如 `STAR-VF` 为时空视频融合，不属于 0.2 单帧静态任务）、综述论文（如 `Navigational Safety of Marine Surface Vehicles`）以及历史已入池论文（如 `TeX-Gen` arxiv:2611.10665 已于 11-12 完成精读）。\n    - 发现 1 篇近期入池高价值候选：`ProtoFusion: Protocol-Guided Prompt Refinement for Generative Infrared and Visible Image Fusion` (arxiv:2611.02877)。\n  - **Crossref 期刊增量**：\n    - 覆盖期刊：IEEE TPAMI (0162-8828), IEEE TIP (1057-7149), IEEE TMM (1520-9210), IEEE TCSVT (1051-8215), Information Fusion (1566-2535), Pattern Recognition (0031-3203), ESWA (0957-4174)。\n    - 抓取状态：成功完成游标遍历，核实存量顶刊论文的正式见刊与卷期分配信息。\n  - **社区讨论与开源跟踪**：\n    - 针对 URMIF 开源仓库 [ZengxiZhang/URMIF](https://github.com/ZengxiZhang/URMIF) 与 RIVIR 数据集进行了结构核验：仓库提供完整 PyTorch 评估测试与分层变形网络代码，数据集包含 1,300+ 真实未配准图像对；标注可复现性标签为 `Code available` \u0026 `Author-reported reproducible`。\n\n---\n\n## 2. TOP 5 精读候选论文列表（按 12 分制综合排序）\n\n依据运行手册第 6.1 节评分准则（满分 12 分，创新优先）：\n\n| 排名 | 规范 ID | 论文标题 | 录用/发表层次 | 评分明细 (关/创/迁/层/验/代) | 总分 | 全文状态与处理动作 |\n|---|---|---|---|---|---|---|\n| **1** | **doi:10.1109/tpami.2026.3720312** | **Universal Representation for Real-World Misaligned Infrared-Visible Image Fusion (URMIF)** | **Published (IEEE TPAMI, CCF-A / 1 区 TOP, IF 20.8)** | **(3/3/2/1/1/0)** | **10** | **官方出版全文与代码公开，选定为今日核心深度精读** |\n| 2 | doi:10.1109/tip.2026.3737049 | RealFusion: Rethinking Infrared and Visible Image Fusion From a Modality-Invariant Perspective | Published (IEEE TIP, CCF-A / 1 区 TOP, IF 13.7) | (3/2/2/1/1/0) | 9 | 存量高分未读候选，保持 unread 排队 |\n| 3 | doi:10.1109/tmm.2026.3746723 | DDFusion: Modality-Specific Degradation Decoupling for Robust Infrared-Visible Image Fusion | Published (IEEE TMM, CCF-A / 1 区 TOP, IF 9.8) | (3/2/2/1/1/0) | 9 | 存量高分未读候选，保持 unread 排队 |\n| 4 | arxiv:2610.09330 | CRT-HMAR: Causal Requirement Tracing-Guided Hierarchical Multi-Agent Regulation for Open-Task-Aware Infrared-Visible Image Fusion | Preprint (arXiv cs.CV / NJUST) | (3/2/1/0/1/1) | 8 | 新候选，保持 unread 排队 |\n| 5 | arxiv:2611.02877 | ProtoFusion: Protocol-Guided Prompt Refinement for Generative Infrared and Visible Image Fusion | Preprint (arXiv cs.CV / HIT) | (3/2/1/0/1/1) | 8 | 新候选，保持 unread 排队 |\n\n---\n\n## 3. 投稿日历轻量监测（未来 45 天截稿项核验）\n\n依据运行手册第 4.2 节，基准时间：北京时间 2026-11-14 03:46:00（时区：`Asia/Shanghai`）。\n\n| 会议 / 特刊 | 层次 | 截稿类型 | 官方截止原文与时区 | 北京时间换算 ($T_{\\text{deadline}}$) | 剩余时间 $\\Delta$ | 预警等级 | 官方 CFP 页面与核验状态 |\n|---|---|---|---|---|---|---|---|\n| **CVPR 2027 (Abstract)** | CCF-A | 摘要注册 (Main Track) | 2026-11-10 23:59:59 AoE | 2026-11-11 19:59:59 | $\\Delta \\le 0$（已过 2.3 天） | **已截止 (Closed)** | [CVPR 2027](https://cvpr.thecvf.com/)，历史归档，不再预警 |\n| **CVPR 2027 (Full Paper)** | CCF-A | 全文截稿 (Main Track) | 2026-11-16 23:59:59 AoE | 2026-11-17 19:59:59 | 剩余 **3.68 天** | **【紧急】** | [CVPR 2027](https://cvpr.thecvf.com/)，无延期通知；严格双盲（正文限 8 页），冲刺终稿校验 |\n| **CVPR 2027 (Supplementary)** | CCF-A | 补充材料截稿 | 2026-11-23 23:59:59 AoE | 2026-11-24 19:59:59 | 剩余 **10.68 天** | **【紧急】** | [CVPR 2027](https://cvpr.thecvf.com/)，用于补充数学证明推导、更丰富定性对比与极限退化消融 |\n| **ICME 2027** | CCF-B | 全文截稿 (Main Track) | 2026-12-15 23:59:59 AoE | 2026-12-16 19:59:59 | 剩余 **32.68 天** | **【近期】** | [ICME 2027](https://2027.ieeeicme.org/)，时间平稳 |\n| **Information Fusion Special Issue** | 1 区 TOP | 特刊全文截稿 | 2026-12-31 23:59:59 UTC | 2027-01-01 07:59:59 | 剩余 **48.17 天** | **【规划】** | [InfoFusion CFP](https://www.sciencedirect.com/journal/information-fusion) |\n\n---\n\n## 4. 跨学科机制完整映射与创新假说 (IDEA-009)\n\n依据运行手册第 9 节规定，固定六步严格论述：\n\n1. **融合中的失效现象**：  \n   在车载、无人机等非严格配准 IVIF 场景中，即便采用全局主平面单应性对齐，地面上的三维立体目标（如站立行人、行进车辆、路灯立杆）与背景地面之间仍然存在垂直方向的巨大真实视差（Parallax）。由于当前深度形变场普遍采用连续性平滑先验（如全变分正则或 $L_2$ 梯度惩罚 $\\|\\nabla \\mathbf{u}\\|^2$），强行假设整个画面的位移是空间连续函数，导致在 3D 目标轮廓交界线上发生非物理的“橡胶薄膜牵拉现象”——前景目标的边界被强行拉扯变形，周围背景像素被挤压扭曲，在融合图像中形成严重的锯齿拉丝、目标边缘虚焦以及轮廓外侧光晕伪影。\n\n2. **外部学科机制原貌（断裂力学与复合材料力学 / 内聚力模型 Cohesive Zone Model, CZM）**：  \n   在固体力学中，层状复合材料或开裂基体承受大剪切载荷时，材料内部遵循连续弹性变形，但在层间界面或裂纹扩展前缘会产生微观脱粘与滑移。经典的 **Barenblatt-Dugdale 内聚力模型** 将整个位移场解耦为内部连续变形与界面处的有限位移跃变（Displacement Jump）：\n   $$\\mathbf{u}(\\mathbf{x}) = \\mathbf{u}_{\\text{continuous}}(\\mathbf{x}) + H(\\mathbf{x} \\in \\Omega_{\\text{fg}}) \\cdot [\\![ \\mathbf{u} ]\\!](\\mathbf{x})$$\n   界面两端承受的法向与剪切牵引力 $\\mathbf{T}$ 与跃变量 $[\\![ \\mathbf{u} ]\\!]$ 遵循**内聚牵引力-分离定律（Traction-Separation Law）**。当剪切应变超过临界软化阈值时，界面允许产生有限的不连续位移释放集中应力，从而避免基底发生非物理的极端畸变断裂。\n\n3. **机制抽象与映射**：  \n   - 连续弹性介质基底 $\\longleftrightarrow$ 大尺度主平面背景（地面、墙面）；\n   - 界面缺陷与剪切应力集中带 $\\longleftrightarrow$ 3D 立体目标（行人、车辆）与主平面背景的深度分界轮廓线 $\\Gamma_{\\text{edge}}$；\n   - 界面内聚位移跃变 $[\\![ \\mathbf{u} ]\\!]$ $\\longleftrightarrow$ 前景目标相对背景主平面的残余视差跃变（Disparity Jump）；\n   - 内聚自由能耗散软化 $\\longleftrightarrow$ 允许变形场在语义深度边界处打破连续平滑惩罚，以有边界的牵引力罚项吸收几何视差跳变。\n\n4. **融合领域查重**：  \n   - 检索表达式：`(\"cohesive zone\" OR \"displacement jump\" OR \"traction separation\") AND (\"infrared\" OR \"visible\") AND (\"fusion\" OR \"registration\")` 在 IEEE Xplore、Crossref 与 Google Scholar 全库检索。\n   - 检索结果：0 篇命中。现有非配准融合（如 URMIF、RFN-Nest、RFNet）均沿用传统光流的连续平滑假设或局部可形变卷积，尚无引入固体力学内聚界面位移跃变算子的先例，属力学机理跨界首创。\n\n5. **创新假说与最小验证（MVP）**：  \n   - **创新假说**：在双分支通用解耦框架中，若将稠密变形场参数化为“主平面连续形变基底 + 语义边界内聚位移跃变场”，并以可微分内聚势能损失替代深度边缘的 $L_2$ 平滑惩罚，则能消除目标边缘的橡胶拉扯伪影，使 3D 前景边缘清晰度与对齐精度同步提升。\n   - **数据与对照组**：选用 RIVIR 数据集中具有典型近景行人大视差的 40 对图像；基线组为 URMIF 官方标准连续形变场，实验组在检测/分割掩码边缘挂载内聚位移跃变算子。\n   - **成功判据**：目标边界法向梯度过渡宽度缩窄 30% 以上，局部边缘重影伪影指标 $N_{abf}$ 降低 25% 以上，且主平面背景平滑性不受破坏。\n   - **失败判据**：内聚跃变导致前景目标整体漂移脱节，或在无视差平坦区域发生误判跃变。\n\n6. **证据等级**：［合理推测 / 待实验验证］。\n\n---\n\n## 5. 工具资讯核验明细：RoMa v2\n\n- **登记编号**：[TOOL-010]\n- **项目全称**：RoMa v2: Harder Better Faster Denser Feature Matching\n- **官方开源代码**：[Parskatt/RoMaV2 (GitHub)](https://github.com/Parskatt/RoMaV2) ｜ 论文链接：[arXiv:2406.18520](https://arxiv.org/abs/2406.18520) (CVPR 2024 / TPAMI 2025)\n- **技术定位**：结合视觉基础模型（DINOv2/DINOv3）与多尺度局部金字塔的稠密特征匹配与变形场估计引擎。\n- **与已有工具对比的增量**：\n  - 相比 SuperPoint + SuperGlue / LightGlue：后者仅能在角点处提取离散稀疏点对，在光滑路面、暗光无纹理区极易失效；\n  - RoMa v2 直接对整幅图像进行稠密特征回归，输出全分辨率的逐像素变换向量场 $\\mathbf{W}(x, y)$ 与匹配可信度掩码 $C(x, y)$，与 URMIF 的分层变形估计具有天然互补性。\n- **环境兼容性**：Python 3.10+, PyTorch 2.0+, 支持 CUDA FP16 推理；单卡 A4000 (16GB) 可在 60ms 内完成 $640 \\times 480$ 图像对匹配。\n\n---\n\n## 6. 运行环境与审计记录\n\n- **执行日期**：2026-11-14\n- **运行模式**：Orca 每日定时研报任务（v6 架构分层离线渲染）\n- **时区基准**：Asia/Shanghai (UTC+8)\n- **脚本入口**：`scripts/build-digest-site.ps1`\n- **安全白名单审计**：严格只读外部检索，无 Git 修改，无第三方代码执行，无外挂网络写入，运行锁机制完备。\n", "source": "appendix.md", "page_type": "appendix", "digest_href": "digest.html", "appendix_href": "appendix.html", "paper_href": "papers/URMIF_tpami2026.html", "appendix": null, "back": "digest.html"}</script>
+<script src="../../../scripts/digest-reader/vendor/lib/marked.umd.js"></script><script src="../../../scripts/digest-reader/vendor/dist/katex.min.js"></script>
+<script src="../../../scripts/digest-reader/reader.js"></script></body></html>
