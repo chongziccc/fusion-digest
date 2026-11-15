@@ -816,7 +816,7 @@
       const card = document.createElement('section');
       card.className = 'tool-card';
       card.id = toolId;
-      card.setAttribute('data-advice', advice.includes('值得') ? 'recommended' : 'watch');
+      card.setAttribute('data-advice', (advice === '值得试用') ? 'recommended' : 'watch');
       card.setAttribute('data-type', type);
 
       card.innerHTML = `
@@ -827,7 +827,7 @@
             ${type ? `<span class="tool-category-badge">🏷️ ${esc(type)}</span>` : ''}
           </div>
           <div class="tool-status-wrap">
-            ${advice ? `<span class="tool-advice-pill ${advice.includes('值得') ? 'is-recommended' : 'is-watch'}">${advice.includes('值得') ? '⭐ 强烈推荐试用' : '👀 持续跟踪观察'}</span>` : ''}
+            ${advice ? `<span class="tool-advice-pill ${(advice === '值得试用') ? 'is-recommended' : 'is-watch'}">${(advice === '值得试用') ? '值得试用 · 未实测' : '暂不采用'}</span>` : ''}
             <span class="tool-status-pill">⏳ ${esc(status)}</span>
           </div>
         </div>
@@ -892,15 +892,15 @@
     // In tool_watch page: insert Radar Dashboard & Matrix at the top
     if (parsedTools.length > 0) {
       const h2Record = Array.from(target.querySelectorAll('h2')).find(h => h.textContent.includes('条目记录'));
-      const recCount = parsedTools.filter(t => t.advice.includes('值得')).length;
-      const watchCount = parsedTools.filter(t => !t.advice.includes('值得')).length;
+      const recCount = parsedTools.filter(t => (t.advice === '值得试用')).length;
+      const watchCount = parsedTools.filter(t => !(t.advice === '值得试用')).length;
 
       const matrixRows = parsedTools.map(t => `
-        <tr class="matrix-row" data-advice="${t.advice.includes('值得') ? 'recommended' : 'watch'}">
+        <tr class="matrix-row" data-advice="${(t.advice === '值得试用') ? 'recommended' : 'watch'}">
           <td class="cell-mono"><a href="#${t.id}" class="badge-idea-id">${t.id}</a></td>
           <td class="cell-nowrap"><strong>${esc(t.name)}</strong></td>
           <td class="cell-nowrap"><span class="badge-domain">${esc(t.type.split('、')[0].split('/')[0])}</span></td>
-          <td class="cell-nowrap"><span class="tool-advice-pill ${t.advice.includes('值得') ? 'is-recommended' : 'is-watch'}">${t.advice.includes('值得') ? '⭐ 推荐试用' : '👀 持续关注'}</span></td>
+          <td class="cell-nowrap"><span class="tool-advice-pill ${(t.advice === '值得试用') ? 'is-recommended' : 'is-watch'}">${(t.advice === '值得试用') ? '⭐ 推荐试用' : '暂不采用'}</span></td>
           <td class="cell-desc">${esc(t.desc || t.usage.slice(0, 48) + '...')}</td>
           <td class="cell-nowrap">${t.link ? `<span class="btn-table-action">${t.link}</span>` : '<span class="cell-muted">—</span>'}</td>
           <td class="cell-nowrap"><a href="#${t.id}" class="btn-jump-card">详情卡片 ↓</a></td>
@@ -931,7 +931,7 @@
             </div>
             <div class="radar-stat-box box-watch" data-filter="watch">
               <div class="stat-num">${watchCount}</div>
-              <div class="stat-meta">👀 持续跟踪观察</div>
+              <div class="stat-meta">暂不采用</div>
             </div>
             <div class="radar-stat-box box-pending" data-filter="pending">
               <div class="stat-num">${parsedTools.length}</div>
@@ -943,7 +943,7 @@
             <span class="filter-label">🔍 快速筛选：</span>
             <button class="chip-filter active" data-filter="all">全部工具 (${parsedTools.length})</button>
             <button class="chip-filter" data-filter="recommended">⭐ 重点推荐 (${recCount})</button>
-            <button class="chip-filter" data-filter="watch">👀 持续跟踪 (${watchCount})</button>
+            <button class="chip-filter" data-filter="watch">暂不采用 (${watchCount})</button>
           </div>
         </div>
 
@@ -1033,16 +1033,16 @@
       card.innerHTML = `
         <div class="spotlight-header">
           <div class="spotlight-badge-wrap">
-            <span class="spotlight-badge">📢 周度推荐试用聚焦</span>
+            <span class="spotlight-badge">📢 推荐复盘与历史记录</span>
             <span class="spotlight-date">Weekly Spotlight Decision</span>
           </div>
-          <h3 class="spotlight-title">周度技术攻关推进建议</h3>
+          <h3 class="spotlight-title">试用建议复盘</h3>
         </div>
         <div class="spotlight-body">
           <div class="spotlight-lead">${text}</div>
         </div>
         <div class="spotlight-footer">
-          <a href="#TOOL-001" class="btn-spotlight-jump">⚡ 查看首选推荐工具 TOOL-001 (Docling) 详情 →</a>
+          <span>仅按最新反馈判断是否试用，不自动推荐固定工具。</span>
         </div>
       `;
       h2.replaceWith(card);
