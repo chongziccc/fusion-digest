@@ -3289,6 +3289,64 @@ dialog img { max-height: 80vh; border-radius: 8px; }
   .tab-item { padding: 10px 18px; }
 }
 
+@media (min-width: 901px) {
+  /* Tools are a dashboard, not an article with a table-of-contents column. */
+  body.tool-dashboard-page main,
+  body.tool-dashboard-page.wide-mode main {
+    width: 100%; max-width: 1640px; padding: 36px 48px 80px;
+  }
+  .tool-dashboard-page .layout,
+  body.tool-dashboard-page.wide-mode .layout { display: block; }
+  .tool-dashboard-page .toc { display: none; }
+  .tool-dashboard-page .detail-hero {
+    padding: 0 0 24px; border: 0; border-radius: 0;
+    background: transparent; box-shadow: none; margin-bottom: 24px;
+  }
+  .tool-dashboard-page .detail-meta-row { display: none; }
+  .tool-dashboard-page .detail-title { font-size: 30px; margin: 12px 0 20px; }
+  .tool-dashboard-page .tabs-nav { background: transparent; padding: 0; flex-wrap: wrap; }
+  .tool-dashboard-page .article { font-size: 16px; }
+  .tool-dashboard-page .radar-hero {
+    padding: 24px 28px; box-shadow: none; margin-bottom: 24px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px 36px; align-items: center;
+  }
+  .tool-dashboard-page .radar-hero-badge,
+  .tool-dashboard-page .radar-hero-title { display: none; }
+  .tool-dashboard-page .radar-hero-desc { margin: 0; font-size: 15px; line-height: 1.8; }
+  .tool-dashboard-page .radar-stats-grid { margin: 0; gap: 0; }
+  .tool-dashboard-page .radar-stat-box {
+    padding: 8px 16px; background: transparent; border: 0;
+    border-left: 1px solid var(--line); border-radius: 0; box-shadow: none; transform: none;
+  }
+  .tool-dashboard-page .radar-stat-box .stat-num { font-size: 28px; }
+  .tool-dashboard-page .radar-stat-box .stat-meta { font-size: 12px; font-weight: 500; }
+  .tool-dashboard-page .radar-filter-bar { grid-column: 1 / -1; }
+  .tool-dashboard-page .chip-filter { font-size: 14px; padding: 8px 18px; }
+  .tool-dashboard-page .radar-matrix-section { padding: 24px 28px; box-shadow: none; }
+  .tool-dashboard-page .matrix-title { font-size: 18px; }
+  .tool-dashboard-page .matrix-hint { display: none; }
+  .tool-dashboard-page .radar-matrix-section .table-scroll { margin: 20px 0 0; box-shadow: none; border-radius: 8px; }
+  .tool-dashboard-page .radar-matrix-section table { table-layout: fixed; font-size: 14px; }
+  .tool-dashboard-page .radar-matrix-section th,
+  .tool-dashboard-page .radar-matrix-section td {
+    white-space: normal !important; overflow-wrap: anywhere; padding: 18px 14px;
+  }
+  .tool-dashboard-page .radar-matrix-section th:nth-child(1) { width: 9%; }
+  .tool-dashboard-page .radar-matrix-section th:nth-child(2) { width: 24%; }
+  .tool-dashboard-page .radar-matrix-section th:nth-child(3) { width: 13%; }
+  .tool-dashboard-page .radar-matrix-section th:nth-child(4) { width: 12%; }
+  .tool-dashboard-page .radar-matrix-section th:nth-child(5) { width: 23%; }
+  .tool-dashboard-page .radar-matrix-section th:nth-child(6) { width: 10%; }
+  .tool-dashboard-page .radar-matrix-section th:nth-child(7) { width: 9%; }
+  .tool-dashboard-page .radar-matrix-section td a,
+  .tool-dashboard-page .radar-matrix-section td span {
+    max-width: 100%; white-space: normal !important; overflow-wrap: anywhere;
+  }
+  .tool-dashboard-page .radar-matrix-section td a { display: inline-block; }
+  .tool-dashboard-page .radar-matrix-section td:first-child,
+  .tool-dashboard-page .radar-matrix-section th:first-child { position: static; }
+}
+
 @media print {
   .mast, .toolbar-wrap, .read-toggle, .toc, .hero-badge, .stats-grid, .quick-links-bar, .tabs-nav, #reading-progress, .mobile-bottom-bar { display: none !important; }
   body { background: #fff; color: #000; }

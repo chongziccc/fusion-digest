@@ -4,8 +4,8 @@
   "legacy": true,
   "renderer": {
     "scripts/build-digest-site.py": "22e999584c208a38af47d9b3996b208eccec5077a28aeb37c001a186d69e2f78",
-    "scripts/digest-reader/reader.css": "2e758ce9a1e8f9388ba76e0ea9abc4f9f60e48e92e37647058b3f8e45a992e01",
-    "scripts/digest-reader/reader.js": "21e51efc47979befdd41b095d2961bdd53a3886b3453701704d169f30c1462b8",
+    "scripts/digest-reader/reader.css": "a2c2f1f839c0fb3195331d903fad2091b9c9a4649c6c287083fd5d9af56fb781",
+    "scripts/digest-reader/reader.js": "0d250e195d25da4a6c1187b0c8544266b7cc3b78cb12c5185f582a8dce00335f",
     "scripts/digest-reader/vendor/dist/contrib/auto-render.js": "1f5492e68752a1b1fbcd500840ca1d0191c26131fdc36381b493a02c6b8d4bcf",
     "scripts/digest-reader/vendor/dist/contrib/auto-render.min.js": "bb53eb953394531aae36fdd537065c4244eb8542901a3ce914601d932675b8ac",
     "scripts/digest-reader/vendor/dist/contrib/auto-render.mjs": "42d3240990d45436d6dd4dfb36e7792448cdc2b602c47ac424fd09b1e93dbdfe",

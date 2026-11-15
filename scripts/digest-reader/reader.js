@@ -2,6 +2,7 @@
 (() => {
   const data = JSON.parse(document.getElementById('reader-data').textContent);
   const app = document.getElementById('app');
+  if ((data.source || '').includes('tool_watch')) document.body.classList.add('tool-dashboard-page');
   const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const storage = {get(k){try{return localStorage.getItem(k)}catch{return null}},set(k,v){try{localStorage.setItem(k,v)}catch{}}};
   
